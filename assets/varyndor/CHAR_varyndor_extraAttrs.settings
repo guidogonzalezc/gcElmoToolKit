@@ -1,0 +1,20 @@
+{
+    "modules": {
+        "C_jawModule_GRP": {},
+        "C_neckModule_GRP": {},
+        "C_spineModule_GRP": {},
+        "C_tailModule_GRP": {},
+        "L_armModule_GRP": {},
+        "L_backLegModule_GRP": {},
+        "L_eyelidModule_GRP": {},
+        "L_footFingerBackModule_GRP": {},
+        "L_handModule_GRP": {},
+        "L_membraneModule_GRP": {},
+        "R_armModule_GRP": {},
+        "R_backLegModule_GRP": {},
+        "R_eyelidModule_GRP": {},
+        "R_footFingerBackModule_GRP": {},
+        "R_handModule_GRP": {},
+        "R_membraneModule_GRP": {}
+    }
+}

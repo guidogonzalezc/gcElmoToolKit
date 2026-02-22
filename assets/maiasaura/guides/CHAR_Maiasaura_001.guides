@@ -1,0 +1,790 @@
+{
+    "Maiasaura": {
+        "L_backToe_GUIDE": {
+            "worldPosition": [
+                70.17778758512759,
+                0.0,
+                -70.0
+            ],
+            "parent": "L_backFoot_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backFoot_GUIDE": {
+            "worldPosition": [
+                59.85808163789278,
+                11.775260158608305,
+                -120.30919116542498
+            ],
+            "parent": "L_backAnkle_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backAnkle_GUIDE": {
+            "worldPosition": [
+                58.590463133480554,
+                80.01046134777704,
+                -141.13705106568412
+            ],
+            "parent": "L_backKnee_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backKnee_GUIDE": {
+            "worldPosition": [
+                75.05965025131671,
+                237.55569233194214,
+                -77.93905713062026
+            ],
+            "parent": "L_hip_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backLegSettings_GUIDE": {
+            "worldPosition": [
+                180.9807112977444,
+                427.16027153763633,
+                -95.4513739751421
+            ],
+            "parent": "L_hip_GUIDE",
+            "jointTwist": "Child",
+            "type": "Child",
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_hip_GUIDE": {
+            "worldPosition": [
+                78.67771129774441,
+                427.6632715376363,
+                -94.9443739751421
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "backLeg",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backLegFrontDistance_GUIDE": {
+            "worldPosition": [
+                95.72020721435547,
+                416.74969482421875,
+                -18.81247329711914
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backToe_GUIDE": {
+            "worldPosition": [
+                -59.85808163789278,
+                0.0,
+                -70.0
+            ],
+            "parent": "R_backFoot_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backFoot_GUIDE": {
+            "worldPosition": [
+                -59.85808163789278,
+                11.775260158608305,
+                -120.30919116542498
+            ],
+            "parent": "R_backAnkle_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backAnkle_GUIDE": {
+            "worldPosition": [
+                -58.590463133480554,
+                80.01046134777704,
+                -141.13705106568412
+            ],
+            "parent": "R_backKnee_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backKnee_GUIDE": {
+            "worldPosition": [
+                -75.05965025131671,
+                237.55569233194214,
+                -77.93905713062026
+            ],
+            "parent": "R_hip_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backLegSettings_GUIDE": {
+            "worldPosition": [
+                -180.9807112977444,
+                427.16027153763633,
+                -95.4513739751421
+            ],
+            "parent": "R_hip_GUIDE",
+            "jointTwist": "Child",
+            "type": "Child",
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_hip_GUIDE": {
+            "worldPosition": [
+                -78.67771129774441,
+                427.6632715376363,
+                -94.9443739751421
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "backLeg",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backLegFrontDistance_GUIDE": {
+            "worldPosition": [
+                -95.72020721435547,
+                416.74969482421875,
+                -18.81247329711914
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontToe_GUIDE": {
+            "worldPosition": [
+                62.16957833749008,
+                0.0,
+                230.0
+            ],
+            "parent": "L_frontFoot_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontFoot_GUIDE": {
+            "worldPosition": [
+                58.840312391078946,
+                14.174472176454891,
+                204.65022762907165
+            ],
+            "parent": "L_frontAnkle_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontAnkle_GUIDE": {
+            "worldPosition": [
+                59.57639437404474,
+                53.283608368909526,
+                204.69561099400124
+            ],
+            "parent": "L_frontKnee_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontKnee_GUIDE": {
+            "worldPosition": [
+                59.851438192983764,
+                168.93960715881664,
+                189.6620099078592
+            ],
+            "parent": "L_frontHip_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontHip_GUIDE": {
+            "worldPosition": [
+                67.84947928245539,
+                296.9627254901783,
+                234.38288950745684
+            ],
+            "parent": "L_frontScapula_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontLegSettings_GUIDE": {
+            "worldPosition": [
+                130.14101345705217,
+                334.9557285248094,
+                213.24760078494202
+            ],
+            "parent": "L_frontScapula_GUIDE",
+            "jointTwist": "Child",
+            "type": "Child",
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontScapula_GUIDE": {
+            "worldPosition": [
+                45.46901345705216,
+                446.3917285248094,
+                151.26060078494203
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "frontLeg",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontLegFrontDistance_GUIDE": {
+            "worldPosition": [
+                73.199,
+                351.9544066961469,
+                256.94896807931826
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontToe_GUIDE": {
+            "worldPosition": [
+                -62.16957833749008,
+                0.0,
+                230.0
+            ],
+            "parent": "R_frontFoot_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontFoot_GUIDE": {
+            "worldPosition": [
+                -58.840312391078946,
+                14.174472176454891,
+                204.65022762907165
+            ],
+            "parent": "R_frontAnkle_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontAnkle_GUIDE": {
+            "worldPosition": [
+                -59.57639437404474,
+                53.283608368909526,
+                204.69561099400124
+            ],
+            "parent": "R_frontKnee_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontKnee_GUIDE": {
+            "worldPosition": [
+                -59.851438192983764,
+                168.93960715881664,
+                189.6620099078592
+            ],
+            "parent": "R_frontHip_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontHip_GUIDE": {
+            "worldPosition": [
+                -67.84947928245539,
+                296.9627254901783,
+                234.38288950745684
+            ],
+            "parent": "R_frontScapula_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontLegSettings_GUIDE": {
+            "worldPosition": [
+                -130.14101345705217,
+                334.9557285248094,
+                213.24760078494202
+            ],
+            "parent": "R_frontScapula_GUIDE",
+            "jointTwist": "Child",
+            "type": "Child",
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontScapula_GUIDE": {
+            "worldPosition": [
+                -45.46901345705216,
+                446.3917285248094,
+                151.26060078494203
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "frontLeg",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontLegFrontDistance_GUIDE": {
+            "worldPosition": [
+                -73.19918199386271,
+                351.9544066961469,
+                256.94896807931826
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_spine02_GUIDE": {
+            "worldPosition": [
+                0.0,
+                397.3975952813881,
+                186.05919600086983
+            ],
+            "parent": "C_spine01_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_spine01_GUIDE": {
+            "worldPosition": [
+                0.0,
+                427.6632715376363,
+                -94.9443739751421
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "spineQuad",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_localHip_GUIDE": {
+            "worldPosition": [
+                0.0,
+                427.6632715376363,
+                -94.9443739751421
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_head_GUIDE": {
+            "worldPosition": [
+                0.0,
+                359.89969561135854,
+                381.228091041855
+            ],
+            "parent": "C_neck_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_neck_GUIDE": {
+            "worldPosition": [
+                0.0,
+                350.9757823286845,
+                228.35642472077484
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "neckQuad",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_centerHeadDistance_GUIDE": {
+            "worldPosition": [
+                0.0,
+                430.5682067871094,
+                417.93392411394143
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_leftHeadDistance_GUIDE": {
+            "worldPosition": [
+                42.8335075378418,
+                357.51442465124177,
+                417.93392411394143
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_rightHeadDistance_GUIDE": {
+            "worldPosition": [
+                -42.834,
+                357.51442465124177,
+                417.93392411394143
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_tail02_GUIDE": {
+            "worldPosition": [
+                0.0,
+                428.7861967359782,
+                -1015.3910177243072
+            ],
+            "parent": "C_tail01_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_tail01_GUIDE": {
+            "worldPosition": [
+                0.0,
+                401.9255476350473,
+                -220.20471663089273
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": 5.0,
+            "type": 0,
+            "moduleName": "tail",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backFootRoll_GUIDE": {
+            "worldPosition": [
+                -57.053147046630954,
+                0.1143569526672481,
+                -110.15692260742189
+            ],
+            "parent": "R_backFootHeel_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backFootHeel_GUIDE": {
+            "worldPosition": [
+                -54.603519439697266,
+                0.0,
+                -155.359130859375
+            ],
+            "parent": "R_backFootBankIn_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backFootBankIn_GUIDE": {
+            "worldPosition": [
+                -13.34149074554442,
+                0.0,
+                -123.57706451416016
+            ],
+            "parent": "R_backFootBankOut_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_backFootBankOut_GUIDE": {
+            "worldPosition": [
+                -108.06504821777344,
+                0.0,
+                -123.57706451416016
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "foot",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backFootRoll_GUIDE": {
+            "worldPosition": [
+                57.05314636230469,
+                6.352130718035732,
+                -110.15742042948997
+            ],
+            "parent": "L_backFootHeel_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backFootHeel_GUIDE": {
+            "worldPosition": [
+                54.604,
+                0.0,
+                -155.359130859375
+            ],
+            "parent": "L_backFootBankIn_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backFootBankIn_GUIDE": {
+            "worldPosition": [
+                13.34149074554442,
+                0.0,
+                -123.57706451416016
+            ],
+            "parent": "L_backFootBankOut_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_backFootBankOut_GUIDE": {
+            "worldPosition": [
+                108.06504821777344,
+                0.0,
+                -123.57706451416016
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "foot",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontFootRoll_GUIDE": {
+            "worldPosition": [
+                -57.9755633014741,
+                5.138324386596681,
+                214.4009855957031
+            ],
+            "parent": "R_frontFootHeel_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontFootHeel_GUIDE": {
+            "worldPosition": [
+                -60.4415633014741,
+                0.0,
+                197.0
+            ],
+            "parent": "R_frontFootBankIn_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontFootBankIn_GUIDE": {
+            "worldPosition": [
+                -35.82877731323242,
+                0.0,
+                208.02793884277344
+            ],
+            "parent": "R_frontFootBankOut_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "R_frontFootBankOut_GUIDE": {
+            "worldPosition": [
+                -83.11573791503906,
+                0.0,
+                208.02793884277344
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "foot",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontFootRoll_GUIDE": {
+            "worldPosition": [
+                57.975101470947266,
+                5.138278016148121,
+                214.40079256600933
+            ],
+            "parent": "L_frontFootHeel_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontFootHeel_GUIDE": {
+            "worldPosition": [
+                60.4415633014741,
+                0.0,
+                197.0
+            ],
+            "parent": "L_frontFootBankIn_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontFootBankIn_GUIDE": {
+            "worldPosition": [
+                35.82877731323242,
+                0.0,
+                208.02793884277344
+            ],
+            "parent": "L_frontFootBankOut_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "L_frontFootBankOut_GUIDE": {
+            "worldPosition": [
+                83.11573791503906,
+                0.0,
+                208.02793884277344
+            ],
+            "parent": "guides_GRP",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "foot",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        }
+    },
+    "controls": null,
+    "meshes": "Puiastre"
+}
