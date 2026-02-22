@@ -1599,7 +1599,7 @@ def add_module_to_guide():
     """
 
 
-    project_manager.load_asset_configuration(asset_name = "varyndor")
+    project_manager.load_asset_configuration(asset_name = "squirrel")
 
     load_guides()
     guides_trn = "guides_GRP"
@@ -1614,7 +1614,8 @@ def add_module_to_guide():
     # CheekGuideCreation(side="R", limb_name="cheek").create_guides(guides_trn, buffers_trn)
     # CheekBoneGuideCreation(side="L",input_name="cheekBone01").create_guides(guides_trn, buffers_trn)
     # CheekBoneGuideCreation(side="R",input_name="cheekBone01").create_guides(guides_trn, buffers_trn)
-    TongueGuideCreation(side="C", twist_joints=10, type="tongue").create_guides(guides_trn, buffers_trn)
+    # TongueGuideCreation(side="C", twist_joints=10, type="tongue").create_guides(guides_trn, buffers_trn)
+    TailGuideCreation(side="C", twist_joints=10, type="tail").create_guides(guides_trn, buffers_trn)
 
 
     # SpikesGuideCreation(side="L", limb_name="upperSpikes", prefix=False).create_guides(guides_trn, buffers_trn)
