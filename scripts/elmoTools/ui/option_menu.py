@@ -164,10 +164,6 @@ def elmo_ui():
     Create the Elmo ToolKit menu in Maya.
     """
 
-    complete_path = os.path.realpath(__file__)
-    relative_path = complete_path.split("\scripts")[0]
-    curves_path = os.path.join(relative_path, "curves", "AYCHEDRAL_curves_001.json") 
-
     if cmds.menu("ElmoMenu", exists=True):
         cmds.deleteUI("ElmoMenu")
     cmds.menu("ElmoMenu", label="Elmo", tearOff=True, parent="MayaWindow")
