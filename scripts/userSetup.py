@@ -21,6 +21,13 @@ def init_elmo_ui():
         print("Elmo UI loaded successfully.")
     except ImportError as e:
         cmds.warning(f"Could not load Elmo UI: {e}")
+
+    try:
+        import elmoTools.ui.custom_markingMenu as custom_markingMenu
+        custom_markingMenu.elmoMarkingMenu()
+        print("Custom Marking Menu loaded successfully.")   
+    except ImportError as e:
+        cmds.warning(f"Could not load Custom Marking Menu: {e}")
     open_vs_code_ports()
 
 
