@@ -161,7 +161,7 @@ def adonis_ui_call(*args):
 
 def elmo_ui():
     """
-    Create the Elmo menu in Maya.
+    Create the Elmo ToolKit menu in Maya.
     """
 
     complete_path = os.path.realpath(__file__)
