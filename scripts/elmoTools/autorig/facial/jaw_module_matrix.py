@@ -752,6 +752,7 @@ class JawModule():
             for i, fine_tune in enumerate(initial_fine_tune):
                 split = fine_tune.split("_")
                 name = f"{split[0]}_{split[1]}"
+                side = split[0]
 
                 joint = cmds.createNode("joint", name=f"{name}_JNT", ss=True, parent=fine_tune_trn)
                 ctl, ctl_grp = controller_creator(
@@ -764,30 +765,36 @@ class JawModule():
                 
                 cmds.setAttr(f"{ctl_grp[1]}.inheritsTransform", 0)
 
-                aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name}_AMX", ss=True)
-                cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.inputMatrix")
-                if i != len(initial_fine_tune)-1:
-                    cmds.connectAttr(f"{initial_fine_tune[i+1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
+                if side != "C":
+                    aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name}_AMX", ss=True)
+                    cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.inputMatrix")
+                    if i != len(initial_fine_tune)-1:
+                        cmds.connectAttr(f"{initial_fine_tune[i+1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
+                    else:
+                        cmds.connectAttr(f"{initial_fine_tune[i-1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
+                        cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0)
+
+                    connect_attr_fineTune = f"{aimMatrix_fine}.outputMatrix"
+
                 else:
-                    cmds.connectAttr(f"{initial_fine_tune[i-1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
-                    cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0)
+                    connect_attr_fineTune = fine_tune
 
                 if fine_tune_side == "R" or main_mid_name == "lower":
                         if fine_tune_side == "R" and main_mid_name == "lower":
-                            multmatrix = core.mirror_behaviour(type=1, name=f"{name}Mirror", input_matrix=f"{aimMatrix_fine}.outputMatrix")
+                            multmatrix = core.mirror_behaviour(type=1, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
                         
                         elif fine_tune_side == "R":
-                            multmatrix = core.mirror_behaviour(type=0, name=f"{name}Mirror", input_matrix=f"{aimMatrix_fine}.outputMatrix")
+                            multmatrix = core.mirror_behaviour(type=0, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
 
                         else:
-                            multmatrix = core.mirror_behaviour(type=2, name=f"{name}Mirror", input_matrix=f"{aimMatrix_fine}.outputMatrix")
+                            multmatrix = core.mirror_behaviour(type=2, name=f"{name}Mirror", input_matrix=connect_attr_fineTune )
 
                         cmds.connectAttr(f"{multmatrix}", f"{ctl_grp[1]}.offsetParentMatrix")
 
 
                 else:
 
-                    cmds.connectAttr(f"{aimMatrix_fine}.outputMatrix", f"{ctl_grp[1]}.offsetParentMatrix", force=True)
+                    cmds.connectAttr(connect_attr_fineTune, f"{ctl_grp[1]}.offsetParentMatrix", force=True)
 
                 cmds.matchTransform(ctl_grp[0], ctl_grp[1])
 
