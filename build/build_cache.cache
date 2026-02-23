@@ -62,8 +62,7 @@
         "body_ctl": "C_body_CTL",
         "localHip": "C_localHip_CTL",
         "localChest": "C_localChest_CTL",
-        "main_ctl": "C_localHip_JNT",
-        "end_main_ctl": "C_localChest_CTL"
+        "end_main_ctl": "C_spine03_CTL"
     },
     "C_neckModule": {
         "skinning_transform": "C_neckSkinning_GRP",
