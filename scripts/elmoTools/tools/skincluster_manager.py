@@ -1,21 +1,137 @@
-import json
-import os
 import maya.cmds as cmds
 import maya.api.OpenMaya as om
 import maya.api.OpenMayaAnim as oma
+import json
+import os
+
+
+def save_geo(file_path):
+    """
+    Saves Topology/Geometry for MESHES. 
+
+    Args:
+        file_path (str): Full path to save the JSON file.
+    """
+    sel = om.MGlobal.getActiveSelectionList()
+    if sel.length() == 0:
+        om.MGlobal.displayError("Nothing selected.")
+        return
+
+    # Get DagPath
+    dag_path = sel.getDagPath(0)
+
+    # Ensure the Shape
+    if dag_path.node().hasFn(om.MFn.kTransform):
+        dag_path.extendToShape()
+
+    # MESH ONLY
+    if not dag_path.hasFn(om.MFn.kMesh):
+        om.MGlobal.displayError("Selection is not a Mesh. Geometry saving skipped.")
+        return
+
+    # Get Names
+    fn_mesh = om.MFnMesh(dag_path)
+    shape_name = fn_mesh.name()
+
+    dag_path.pop()
+    fn_trans = om.MFnDependencyNode(dag_path.node())
+    trans_name = fn_trans.name()
+
+    # Get Parent
+    fn_dag = om.MFnDagNode(dag_path)
+    parent_obj = fn_dag.parent(0)
+    parent_name = None
+    if not parent_obj.hasFn(om.MFn.kWorld):
+        parent_name = om.MFnDependencyNode(parent_obj).name()
+
+    # Extract Mesh Data
+    dag_path.extendToShape()
+
+    points = fn_mesh.getPoints(om.MSpace.kObject)
+    counts, connects = fn_mesh.getVertices()
+
+    # Dictionary for JSON
+    data = {
+        "version": "1.3",
+        "type": "mesh",
+        "transform_name": trans_name,
+        "shape_name": shape_name,
+        "parent_name": parent_name,
+        "points": [(p.x, p.y, p.z) for p in points],
+        "counts": list(counts),
+        "connects": list(connects)
+    }
+
+    try:
+        with open(file_path, 'w') as f:
+            json.dump(data, f, indent=4)
+        om.MGlobal.displayInfo(f"Saved Mesh: {trans_name}")
+    except IOError as e:
+        om.MGlobal.displayError(f"IO Error: {e}")
+
+def create_geo(file_path):
+    """
+    Reconstructs MESHES.
+
+    Args:
+        file_path (str): Full path to the JSON file containing mesh data.
+    """
+    if not os.path.exists(file_path):
+        om.MGlobal.displayError("File not found.")
+        return
+
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+
+    # Only Meshes
+    if data.get("type") != "mesh" and "counts" not in data:
+        om.MGlobal.displayError("JSON file does not contain Mesh data.")
+        return
+
+    # 1. Prepare Points
+    om_points = om.MPointArray()
+    for p in data['points']:
+        om_points.append(om.MPoint(p[0], p[1], p[2]))
+
+    # 2. Create Mesh
+    fn_mesh = om.MFnMesh()
+    om_counts = om.MIntArray(data['counts'])
+    om_connects = om.MIntArray(data['connects'])
+
+    new_transform = fn_mesh.create(om_points, om_counts, om_connects)
+
+    # 3. Naming & Parenting
+    fn_trans = om.MFnDependencyNode(new_transform)
+    fn_trans.setName(data['transform_name'])
+    final_trans_name = fn_trans.name()
+
+    fn_dag = om.MFnDagNode(new_transform)
+    child = fn_dag.child(0)
+    fn_shape = om.MFnDependencyNode(child)
+    fn_shape.setName(data['shape_name'])
+
+    target_parent = data.get("parent_name")
+    if target_parent and cmds.objExists(target_parent):
+        try:
+            cmds.parent(final_trans_name, target_parent)
+        except:
+            om.MGlobal.displayWarning(f"Could not parent to {target_parent}")
+
+    # Adding initial shader
+    cmds.sets(final_trans_name, edit=True, forceElement="initialShadingGroup")
+    om.MGlobal.displayInfo(f"Reconstructed Mesh: {final_trans_name}")
+    return final_trans_name
 
 class SkinIO:
     def __init__(self):
         self.k_skin_attrs = [
-            "skinningMethod",
-            "normalizeWeights",
-            "maintainMaxInfluences",
-            "maxInfluences",
-            "weightDistribution"
+            "skinningMethod", "normalizeWeights",
+            "maintainMaxInfluences", "maxInfluences", "weightDistribution"
         ]
-        self.tolerance = 1e-5 
+        self.tolerance = 1e-5
 
     def _get_dag_path(self, node_name):
+        """Helper to get MDagPath from name (For Geometry)."""
         sel = om.MSelectionList()
         try:
             sel.add(node_name)
@@ -23,309 +139,331 @@ class SkinIO:
         except:
             return None
 
-    def _get_skin_clusters(self, dag_path):
-        """
-        Original method: Finds skins from mesh history.
-        Preserved to maintain stack order export.
-        """
-        history = cmds.listHistory(dag_path.fullPathName(), pruneDagObjects=True, interestLevel=1) or []
-        skins = [x for x in history if cmds.nodeType(x) == "skinCluster"]
-        return list(reversed(skins))
+    def _get_mobject(self, node_name):
+        """Helper to get MObject from name (For SkinClusters/DG Nodes)."""
+        sel = om.MSelectionList()
+        try:
+            sel.add(node_name)
+            return sel.getDependNode(0)
+        except:
+            return None
 
-    def _get_meshes_from_skin(self, skin_mobj):
+    def _get_skin_clusters(self, dag_path):
+        """Helper to get all skin clusters connected to a DAG path."""
+        try:
+            history = cmds.listHistory(dag_path.fullPathName(), pruneDagObjects=True, interestLevel=1) or []
+            skins = [x for x in history if cmds.nodeType(x) == "skinCluster"]
+            return list(reversed(skins))
+        except:
+            return []
+
+    def _get_geometry_components(self, dag_path):
         """
-        New Helper: Finds the connected mesh DAG path from a SkinCluster MObject.
+        Returns (count, MObject_Component) for Mesh, Curve, or Surface.
+        Handles Single vs Double Indexed components.
         """
+        component = None
+        count = 0
+        
+        # 1. Mesh (Single Indexed)
+        if dag_path.hasFn(om.MFn.kMesh):
+            fn_mesh = om.MFnMesh(dag_path)
+            count = fn_mesh.numVertices
+            
+            fn_single = om.MFnSingleIndexedComponent()
+            component = fn_single.create(om.MFn.kMeshVertComponent)
+            fn_single.setCompleteData(count)
+            
+        # 2. Curve (Single Indexed)
+        elif dag_path.hasFn(om.MFn.kNurbsCurve):
+            fn_curve = om.MFnNurbsCurve(dag_path)
+            count = fn_curve.numCVs
+            
+            fn_single = om.MFnSingleIndexedComponent()
+            component = fn_single.create(om.MFn.kCurveCVComponent)
+            fn_single.setCompleteData(count)
+            
+        # 3. Surface (Double Indexed - U, V)
+        elif dag_path.hasFn(om.MFn.kNurbsSurface):
+            fn_surf = om.MFnNurbsSurface(dag_path)
+            num_u = fn_surf.numCVsInU
+            num_v = fn_surf.numCVsInV
+            count = num_u * num_v
+            
+            fn_double = om.MFnDoubleIndexedComponent()
+            component = fn_double.create(om.MFn.kSurfaceCVComponent)
+            fn_double.setCompleteData(num_u, num_v)
+            
+        return count, component
+
+    def _get_geometry_from_skin(self, skin_mobj):
+        """Finds any connected Mesh, Curve, or Surface."""
         try:
             fn_skin = oma.MFnSkinCluster(skin_mobj)
-            # getOutputGeometry returns the shapes driven by this skin
             geoms = fn_skin.getOutputGeometry()
             found_paths = []
-            
+
             for i in range(len(geoms)):
                 node = geoms[i]
-                if node.hasFn(om.MFn.kMesh):
-                    # Convert MObject (Node) to MDagPath
+                if (node.hasFn(om.MFn.kMesh) or
+                    node.hasFn(om.MFn.kNurbsCurve) or
+                    node.hasFn(om.MFn.kNurbsSurface)):
+
                     fn_dag = om.MFnDagNode(node)
-                    path = fn_dag.getPath()
-                    
-                    # Ensure we are not looking at an intermediate object unless necessary
                     if not fn_dag.isIntermediateObject:
-                        found_paths.append(path)
+                        found_paths.append(fn_dag.getPath())
             return found_paths
-        except Exception as e:
-            om.MGlobal.displayWarning(f"Could not retrieve geometry from skin: {e}")
+        except:
             return []
 
     def export_skins(self, file_path):
-        om.MGlobal.displayInfo(f"--- Starting Export to: {file_path} ---")
-        
+        """
+        Exports skin cluster data for selected geometry or entire scene.
+        """
+        om.MGlobal.displayInfo(f"--- Exporting Skins to: {file_path} ---")
         sel = om.MGlobal.getActiveSelectionList()
-        
-        # We use a dictionary to deduplicate meshes by their full path name
-        # Key: Full Path String, Value: MDagPath Object
         meshes_map = {}
 
-        # --- 1. SELECTION MODE ---
         if sel.length() > 0:
-            # Iterate generic objects to support both Mesh and SkinCluster selection
             it_sel = om.MItSelectionList(sel)
             while not it_sel.isDone():
                 obj = it_sel.getDependNode()
-                
-                # Case A: User selected a SkinCluster
+
+                # SkinCluster Selected
                 if obj.hasFn(om.MFn.kSkinClusterFilter):
-                    paths = self._get_meshes_from_skin(obj)
-                    for p in paths:
-                        meshes_map[p.fullPathName()] = p
-                
-                # Case B: User selected a Mesh (Legacy support)
-                elif obj.hasFn(om.MFn.kMesh):
-                    path = it_sel.getDagPath()
-                    path.extendToShape()
-                    fn_dag = om.MFnDagNode(path)
-                    if not fn_dag.isIntermediateObject:
-                        meshes_map[path.fullPathName()] = path
-                
-                # Case C: User selected a Transform containing a Mesh
-                elif obj.hasFn(om.MFn.kTransform):
-                    # Try to extend to shape
+                    paths = self._get_geometry_from_skin(obj)
+                    for p in paths: meshes_map[p.fullPathName()] = p
+
+                # Transform or Shape Selected
+                elif obj.hasFn(om.MFn.kDependencyNode):
                     try:
                         path = it_sel.getDagPath()
-                        path.extendToShape()
-                        if path.node().hasFn(om.MFn.kMesh):
-                             meshes_map[path.fullPathName()] = path
-                    except:
-                        pass # Valid transform but no shape, ignore
+                        if path.node().hasFn(om.MFn.kTransform):
+                            path.extendToShape()
 
+                        # Check 3 types
+                        node = path.node()
+                        if (node.hasFn(om.MFn.kMesh) or
+                            node.hasFn(om.MFn.kNurbsCurve) or
+                            node.hasFn(om.MFn.kNurbsSurface)):
+
+                             if not om.MFnDagNode(path).isIntermediateObject:
+                                meshes_map[path.fullPathName()] = path
+                    except:
+                        pass
                 it_sel.next()
 
-        # --- 2. SCENE MODE (No selection) ---
         else:
-            om.MGlobal.displayInfo("No selection. Iterating all SkinClusters in scene...")
-            # Use DependencyNode iterator for SkinClusters instead of DAG iterator
             it_dep = om.MItDependencyNodes(om.MFn.kSkinClusterFilter)
             while not it_dep.isDone():
-                skin_obj = it_dep.thisNode()
-                paths = self._get_meshes_from_skin(skin_obj)
-                for p in paths:
-                    meshes_map[p.fullPathName()] = p
+                paths = self._get_geometry_from_skin(it_dep.thisNode())
+                for p in paths: meshes_map[p.fullPathName()] = p
                 it_dep.next()
 
         if not meshes_map:
-            om.MGlobal.displayWarning("No valid skinned meshes found from selection.")
+            om.MGlobal.displayWarning("No skinned geometry found.")
             return
 
-        # Convert map back to list for processing
-        meshes_to_process = list(meshes_map.values())
-        
         full_data = {}
+        meshes_to_process = list(meshes_map.values())
 
-        # --- 3. EXPORT LOOP (Preserved Logic) ---
-        for mesh_path in meshes_to_process:
-            mesh_name = mesh_path.partialPathName()
-            mf_mesh = om.MFnMesh(mesh_path)
-            vtx_count = mf_mesh.numVertices
-            
-            # We still find ALL skins on this mesh to ensure stack order and completeness.
-            # Even if user selected just one skin, we usually want the full stack for that mesh 
-            # to maintain the file format structure (Mesh -> [Skins]).
-            skins = self._get_skin_clusters(mesh_path)
-            if not skins:
+        for geo_path in meshes_to_process:
+            geo_name = geo_path.partialPathName()
+
+            # Get Components (Mesh, Curve, Surface)
+            vtx_count, vertex_comp = self._get_geometry_components(geo_path)
+
+            if vtx_count == 0 or vertex_comp is None: 
                 continue
 
-            om.MGlobal.displayInfo(f"Processing: {mesh_name} | Skins: {len(skins)}")
-            
-            mesh_data = []
-            
+            skins = self._get_skin_clusters(geo_path)
+            if not skins: continue
+
+            # Uses MObject.apiTypeStr (API 2.0)
+            om.MGlobal.displayInfo(f"Processing: {geo_name} | Type: {geo_path.node().apiTypeStr} | Points: {vtx_count}")
+
+            geo_skin_data = []
+
             for skin_name in skins:
                 sel_skin = om.MSelectionList()
                 sel_skin.add(skin_name)
                 mf_skin = oma.MFnSkinCluster(sel_skin.getDependNode(0))
 
-                # --- Atributos ---
-                attrs = {}
-                for attr in self.k_skin_attrs:
-                    try:
-                        attrs[attr] = cmds.getAttr(f"{skin_name}.{attr}")
-                    except:
-                        pass
+                attrs = {attr: cmds.getAttr(f"{skin_name}.{attr}") for attr in self.k_skin_attrs if cmds.attributeQuery(attr, n=skin_name, ex=True)}
 
-                # --- Influencias ---
                 influences_paths = mf_skin.influenceObjects()
                 inf_names = [p.partialPathName() for p in influences_paths]
 
-                # --- Pesos (Logica Sparse) ---
-                single_comp = om.MFnSingleIndexedComponent()
-                vertex_comp = single_comp.create(om.MFn.kMeshVertComponent)
-                single_comp.setCompleteData(vtx_count)
-                
-                weights_marray, _ = mf_skin.getWeights(mesh_path, vertex_comp)
+                # Get Weights (SAFE WRAPPED)
+                try:
+                    weights_marray, _ = mf_skin.getWeights(geo_path, vertex_comp)
+                except RuntimeError as e:
+                    om.MGlobal.displayError(f"Failed to get weights for {geo_name} ({skin_name}): {e}")
+                    continue
+
                 flat_weights = list(weights_marray)
-                
                 sparse_weights = {}
                 stride = len(inf_names)
-                
-                for inf_idx, inf_name in enumerate(inf_names):
-                    j_indices = []
-                    j_weights = []
-                    
-                    for v_idx in range(vtx_count):
-                        val = flat_weights[v_idx * stride + inf_idx]
-                        if val > self.tolerance:
-                            j_indices.append(v_idx)
-                            j_weights.append(round(val, 5))
-                    
-                    if j_indices:
-                        sparse_weights[inf_name] = {
-                            "ix": j_indices,
-                            "vw": j_weights
-                        }
 
-                # --- Blend Weights ---
-                blend_weights_marray = mf_skin.getBlendWeights(mesh_path, vertex_comp)
-                flat_blend = list(blend_weights_marray)
+                for inf_idx, inf_name in enumerate(inf_names):
+                    inf_vals = flat_weights[inf_idx::stride]
+                    j_indices = [i for i, v in enumerate(inf_vals) if v > self.tolerance]
+                    j_weights = [round(inf_vals[i], 5) for i in j_indices]
+
+                    if j_indices:
+                        sparse_weights[inf_name] = {"ix": j_indices, "vw": j_weights}
+
+                # Blend Weights (DQ)
                 sparse_blend = {}
-                
-                b_indices = []
-                b_values = []
-                for v_idx, val in enumerate(flat_blend):
-                    if val > self.tolerance:
-                        b_indices.append(v_idx)
-                        b_values.append(round(val, 5))
-                
-                if b_indices:
-                    sparse_blend = {"ix": b_indices, "vw": b_values}
-                
+                try:
+                    blend_weights_marray = mf_skin.getBlendWeights(geo_path, vertex_comp)
+                    flat_blend = list(blend_weights_marray)
+                    b_indices = [i for i, v in enumerate(flat_blend) if v > self.tolerance]
+                    b_values = [round(flat_blend[i], 5) for i in b_indices]
+                    if b_indices:
+                        sparse_blend = {"ix": b_indices, "vw": b_values}
+                except:
+                    pass
+
                 skin_entry = {
                     "name": skin_name,
                     "vertex_count": vtx_count,
                     "attributes": attrs,
-                    "influences": inf_names, 
+                    "influences": inf_names,
                     "sparse_weights": sparse_weights,
                     "sparse_blend": sparse_blend
                 }
-                mesh_data.append(skin_entry)
+                geo_skin_data.append(skin_entry)
 
-            full_data[mesh_name] = mesh_data
+            full_data[geo_name] = geo_skin_data
 
         with open(file_path, 'w') as f:
             json.dump(full_data, f, separators=(',', ':'))
-            
-        om.MGlobal.displayInfo(f"Export completed. Optimized file saved.")
+
+        om.MGlobal.displayInfo("Export completed.")
 
     def import_skins(self, file_path):
-        # ... (Same as original import logic) ...
-        # I have omitted it here for brevity as no changes were requested for import logic
-        # You should keep the original import_skins code here.
-        if not os.path.exists(file_path):
-            om.MGlobal.displayError("JSON file does not exist.")
-            return
+            """
+            Imports skin cluster data from JSON file. Supports multiple skins via multi=True,
+            preserves attribute states, and rebuilds deformer stack order.
+            """
+            if not os.path.exists(file_path):
+                om.MGlobal.displayError("File not found.")
+                return
 
-        with open(file_path, 'r') as f:
-            data = json.load(f)
+            with open(file_path, 'r') as f:
+                data = json.load(f)
 
-        for mesh_name, skins_list in data.items():
-            mesh_path = self._get_dag_path(mesh_name)
-            if not mesh_path:
-                om.MGlobal.displayWarning(f"Mesh skipped: {mesh_name}")
-                continue
-            
-            mesh_path.extendToShape()
-            mf_mesh = om.MFnMesh(mesh_path)
-            processed_skins = []
+            for geo_name, skins_list in data.items():
+                geo_path = self._get_dag_path(geo_name)
+                if not geo_path:
+                    om.MGlobal.displayWarning(f"Geometry missing: {geo_name}")
+                    continue
 
-            for skin_data in skins_list:
-                skin_name = skin_data["name"]
-                target_vtx_count = skin_data["vertex_count"]
-                
-                if mf_mesh.numVertices != target_vtx_count:
-                    om.MGlobal.displayError(f"{skin_name} does not match topology. Skip.")
-                    continue 
+                geo_path.extendToShape()
 
-                json_influences = skin_data["influences"]
-                skin_exists = cmds.objExists(skin_name) and cmds.nodeType(skin_name) == "skinCluster"
-                mf_skin = None
-                
-                if skin_exists:
-                    sel_s = om.MSelectionList()
-                    sel_s.add(skin_name)
-                    mf_skin = oma.MFnSkinCluster(sel_s.getDependNode(0))
-                    scene_infs = [p.partialPathName() for p in mf_skin.influenceObjects()]
-                    missing_infs = [inf for inf in json_influences if inf not in scene_infs]
-                    if missing_infs:
-                        cmds.skinCluster(skin_name, e=True, addInfluence=missing_infs, weight=0.0)
-                else:
-                    valid_joints = [j for j in json_influences if cmds.objExists(j)]
-                    if not valid_joints: continue
-                    new_skin = cmds.skinCluster(valid_joints, mesh_path.fullPathName(), n=skin_name, toSelectedBones=True, multi=True)[0]
-                    sel_s = om.MSelectionList()
-                    sel_s.add(new_skin)
-                    mf_skin = oma.MFnSkinCluster(sel_s.getDependNode(0))
+                # Get Components (Mesh, Curve, Surface)
+                current_vtx_count, vertex_comp = self._get_geometry_components(geo_path)
 
-                for attr, val in skin_data["attributes"].items():
+                if current_vtx_count == 0:
+                    om.MGlobal.displayWarning(f"Skipping {geo_name}: Not a Mesh, Curve, or Surface.")
+                    continue
+
+                processed_skins = []
+
+                for skin_data in skins_list:
+                    skin_name = skin_data["name"]
+                    target_vtx_count = skin_data["vertex_count"]
+
+                    if current_vtx_count != target_vtx_count:
+                        om.MGlobal.displayError(f"Topology mismatch {skin_name}: JSON:{target_vtx_count} vs Scene:{current_vtx_count}")
+                        continue
+
+                    json_influences = skin_data["influences"]
+
+                    # Create or Retrieve SkinCluster
+                    if cmds.objExists(skin_name) and cmds.nodeType(skin_name) == "skinCluster":
+                        skin_mobj = self._get_mobject(skin_name)
+                        mf_skin = oma.MFnSkinCluster(skin_mobj)
+                        
+                        scene_infs = [p.partialPathName() for p in mf_skin.influenceObjects()]
+                        missing = [x for x in json_influences if x not in scene_infs]
+                        if missing:
+                            cmds.skinCluster(skin_name, e=True, addInfluence=missing, weight=0.0)
+                    else:
+                        valid_joints = [j for j in json_influences if cmds.objExists(j)]
+                        if not valid_joints:
+                            om.MGlobal.displayWarning(f"No valid joints found for {skin_name}")
+                            continue
+
+                        # Create new skin with multi=True to allow stacking
+                        try:
+                            new_skin = cmds.skinCluster(valid_joints, geo_path.fullPathName(), n=skin_name, toSelectedBones=True, multi=True)[0]
+                        except:
+                            new_skin = cmds.skinCluster(valid_joints, geo_path.fullPathName(), n=skin_name, multi=True)[0]
+
+                        skin_mobj = self._get_mobject(new_skin)
+                        mf_skin = oma.MFnSkinCluster(skin_mobj)
+
+                    # Set Extracted Attributes (incl. Weight Distribution, Skinning Method)
+                    for attr, val in skin_data["attributes"].items():
+                        try: cmds.setAttr(f"{skin_name}.{attr}", val)
+                        except: pass
+
+                    # Map Influences
+                    scene_inf_paths = mf_skin.influenceObjects()
+                    scene_inf_names = [p.partialPathName() for p in scene_inf_paths]
+                    scene_inf_map = {name: i for i, name in enumerate(scene_inf_names)}
+                    num_scene_infs = len(scene_inf_names)
+
+                    # Reconstruct Weights
+                    full_weight_list = [0.0] * (current_vtx_count * num_scene_infs)
+
+                    for j_name, data_block in skin_data.get("sparse_weights", {}).items():
+                        if j_name not in scene_inf_map: continue
+                        inf_idx = scene_inf_map[j_name]
+                        for v_idx, weight in zip(data_block["ix"], data_block["vw"]):
+                            flat_index = (v_idx * num_scene_infs) + inf_idx
+                            full_weight_list[flat_index] = weight
+
+                    # Apply Weights
+                    m_indices = om.MIntArray(list(range(num_scene_infs)))
+                    m_weights = om.MDoubleArray(full_weight_list)
+
+                    # Suspend normalization for raw API injection
+                    prev_norm = cmds.getAttr(f"{skin_name}.normalizeWeights")
+                    prev_max = cmds.getAttr(f"{skin_name}.maintainMaxInfluences")
+                    cmds.setAttr(f"{skin_name}.normalizeWeights", 0)
+                    cmds.setAttr(f"{skin_name}.maintainMaxInfluences", 0)
+
                     try:
-                        cmds.setAttr(f"{skin_name}.{attr}", val)
-                    except: pass
-                
-                scene_inf_paths = mf_skin.influenceObjects()
-                scene_inf_names = [p.partialPathName() for p in scene_inf_paths]
-                scene_inf_map = {name: i for i, name in enumerate(scene_inf_names)}
+                        mf_skin.setWeights(geo_path, vertex_comp, m_indices, m_weights, False)
+                    finally:
+                        # Restore original states
+                        cmds.setAttr(f"{skin_name}.normalizeWeights", prev_norm)
+                        cmds.setAttr(f"{skin_name}.maintainMaxInfluences", prev_max)
 
-                num_verts = target_vtx_count
-                num_scene_infs = len(scene_inf_names)
+                    # Apply Blend Weights (For Dual Quaternion blends)
+                    sparse_blend = skin_data.get("sparse_blend", {})
+                    if sparse_blend:
+                        full_blend = [0.0] * current_vtx_count
+                        for v_idx, val in zip(sparse_blend["ix"], sparse_blend["vw"]):
+                            full_blend[v_idx] = val
+                        mf_skin.setBlendWeights(geo_path, vertex_comp, om.MDoubleArray(full_blend))
 
-                full_weight_list = [0.0] * (num_verts * num_scene_infs)
-                sparse_data = skin_data.get("sparse_weights", {})
-                
-                for j_name, data_block in sparse_data.items():
-                    if j_name not in scene_inf_map: continue
-                    scene_inf_idx = scene_inf_map[j_name]
-                    indices = data_block["ix"]
-                    values = data_block["vw"]
-                    for v_idx, weight_val in zip(indices, values):
-                        flat_index = (v_idx * num_scene_infs) + scene_inf_idx
-                        full_weight_list[flat_index] = weight_val
-                
-                m_influence_indices = om.MIntArray(list(range(num_scene_infs)))
-                final_weights = om.MDoubleArray(full_weight_list)
-                
-                single_comp = om.MFnSingleIndexedComponent()
-                vertex_comp = single_comp.create(om.MFn.kMeshVertComponent)
-                single_comp.setCompleteData(num_verts)
-                
-                prev_norm = cmds.getAttr(f"{skin_name}.normalizeWeights")
-                prev_max = cmds.getAttr(f"{skin_name}.maintainMaxInfluences")
+                    processed_skins.append(skin_name)
 
-                cmds.setAttr(f"{skin_name}.normalizeWeights", 0)
-                cmds.setAttr(f"{skin_name}.maintainMaxInfluences", 0)
-
-                try:
-
-                    mf_skin.setWeights(mesh_path, vertex_comp, m_influence_indices, final_weights, False)
+                # Reorder Deformer Stack to match export state
+                if processed_skins:
+                    hist = cmds.listHistory(geo_path.fullPathName(), pruneDagObjects=True, interestLevel=1)
+                    curr_skins = [x for x in hist if cmds.nodeType(x) == "skinCluster"]
+                    curr_skins = list(reversed(curr_skins))
                     
-                finally:
-                    cmds.setAttr(f"{skin_name}.normalizeWeights", prev_norm)
-                    cmds.setAttr(f"{skin_name}.maintainMaxInfluences", prev_max)
+                    unknown = [s for s in curr_skins if s not in processed_skins]
+                    order = unknown + processed_skins
+                    
+                    for skin in reversed(order):
+                        try: cmds.reorderDeformers(skin, geo_path.fullPathName(), back=True)
+                        except: pass
 
-
-
-                sparse_blend = skin_data.get("sparse_blend", {})
-                if sparse_blend:
-                    full_blend = [0.0] * num_verts
-                    for v_idx, val in zip(sparse_blend["ix"], sparse_blend["vw"]):
-                        full_blend[v_idx] = val
-                    mf_skin.setBlendWeights(mesh_path, vertex_comp, om.MDoubleArray(full_blend))
-
-                processed_skins.append(skin_name)
-
-            if processed_skins:
-                current_hist = cmds.listHistory(mesh_path.fullPathName(), pruneDagObjects=True, interestLevel=1)
-                current_skins = [x for x in current_hist if cmds.nodeType(x) == "skinCluster"]
-                current_skins = list(reversed(current_skins))
-                unknown = [s for s in current_skins if s not in processed_skins]
-                order = unknown + processed_skins
-                for skin in reversed(order):
-                    try: cmds.reorderDeformers(skin, mesh_path.fullPathName(), back=True)
-                    except: pass
-
+SkinIO().import_skins("C:/tmp/skin_data.json")
