@@ -62,13 +62,16 @@
         "body_ctl": "C_body_CTL",
         "localHip": "C_localHip_CTL",
         "localChest": "C_localChest_CTL",
-        "main_ctl": "C_localHip_JNT",
-        "end_main_ctl": "C_localChest_CTL"
+        "end_main_ctl": "C_spine03_CTL"
     },
     "C_neckModule": {
         "skinning_transform": "C_neckSkinning_GRP",
         "neck_ctl": "C_neck01_CTL",
         "head_ctl": "C_head_CTL"
+    },
+    "C_tailModule": {
+        "skinning_transform": "C_tailSkinning_GRP",
+        "main_ctl": "C_tail00_CTL"
     },
     "L_eyeModule": {
         "skinning_transform": "L_eyelidFacialSkinning_GRP",
@@ -103,18 +106,6 @@
     "R_cheekBoneModule": {
         "skinning_transform": "R_cheekBoneFacialSkinning_GRP"
     },
-    "L_eyeSocketModule": {
-        "skinning_transform": "L_eyeSocketFacialSkinning_GRP"
-    },
-    "R_eyeSocketModule": {
-        "skinning_transform": "R_eyeSocketFacialSkinning_GRP"
-    },
-    "L_lowerEyeSocketModule": {
-        "skinning_transform": "L_lowerEyeSocketFacialSkinning_GRP"
-    },
-    "R_lowerEyeSocketModule": {
-        "skinning_transform": "R_lowerEyeSocketFacialSkinning_GRP"
-    },
     "L_FkFingersModule": {
         "skinning_transform": "L_fkFingersSkinningJoints",
         "attributes_ctl": "L_fkFingersAttributes_CTL"
@@ -122,8 +113,5 @@
     "R_FkFingersModule": {
         "skinning_transform": "R_fkFingersSkinningJoints",
         "attributes_ctl": "R_fkFingersAttributes_CTL"
-    },
-    "C_tongueModule": {
-        "skinning_transform": "C_tongueFacialSkinning_GRP"
     }
 }
