@@ -131,6 +131,7 @@ def store_data():
         "asset_name": DataManager.get_asset_name(),
         "skinning_data": DataManager.get_skinning_data(),
         "model_path": DataManager.get_model_path(),
+        "extra_data": DataManager.get_extra_data_path(),
     }
     file_path = os.path.join(SCRIPT_PATH, "build", "old_data.json")
     with open(file_path, 'w') as json_file:
@@ -148,8 +149,9 @@ def load_data():
             DataManager.set_ctls_data(data.get("ctls_data"))
             DataManager.set_guide_data(data.get("guide_data"))
             DataManager.set_asset_name(data.get("asset_name"))
-            DataManager.set_skinning_data(data.get("skinning_data")),
+            DataManager.set_skinning_data(data.get("skinning_data"))
             DataManager.set_model_path(data.get("model_path"))
+            DataManager.set_extra_data_path(data.get("extra_data"))
     else:
         om.MGlobal.displayWarning(f"No data file found at: {file_path}")
 

@@ -120,12 +120,7 @@ class FingersModule(object):
                 cmds.addAttr(self.finger_attributes_ctl, longName="Spread", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
                 cmds.addAttr(self.finger_attributes_ctl, longName="Twist", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
                 cmds.addAttr(self.finger_attributes_ctl, longName="Fan", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
-                cmds.addAttr(self.finger_attributes_ctl, longName="ThumbAttributes", attributeType="enum", enumName="____")
-                cmds.setAttr(f"{self.finger_attributes_ctl}.ThumbAttributes", lock=True, keyable=False, channelBox=True)
-                cmds.addAttr(self.finger_attributes_ctl, ln="Thumb_Curl", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
-                cmds.addAttr(self.finger_attributes_ctl, ln="Thumb_Spread", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
-                cmds.addAttr(self.finger_attributes_ctl, ln="Thumb_Twist", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
-                cmds.addAttr(self.finger_attributes_ctl, ln="Thumb_Fan", attributeType="float", defaultValue=0, max=10, min=-10, keyable=True)
+
 
         else:
             self.controllers_grp = cmds.createNode("transform", name=f"{self.side}_fkFingersControllers_GRP", parent=self.masterWalk_ctl)
@@ -170,6 +165,14 @@ class FingersModule(object):
 
         self.primary_aim_vector = om.MVector(AXIS_VECTOR[self.primary_aim])
         self.secondary_aim_vector = om.MVector(AXIS_VECTOR[self.secondary_aim])
+
+        if data_exporter.get_data(f"{self.side}_FkFingersModule", "settings_transform"):
+            self.settings_trn = data_exporter.get_data(f"{self.side}_FkFingersModule", "settings_transform")
+        else:
+            self.settings_trn = cmds.createNode("transform", name=f"{self.side}_fkFingersSettings_TRN", parent=self.individual_module_grp, ss=True)
+            for attr in ["tx", "ty", "tz", "rx", "ry", "rz", "sx", "sy", "sz", "visibility"]:
+                cmds.setAttr(f"{self.settings_trn}.{attr}", lock=True, keyable=False, channelBox=False)
+
         self.create_controller()
         data={
             "module": self.individual_module_grp,
@@ -185,6 +188,7 @@ class FingersModule(object):
             {
                 "skinning_transform": self.skinning_grp,
                 "attributes_ctl": self.finger_attributes_ctl,
+                "settings_transform": self.settings_trn
             }
         )
             
@@ -194,6 +198,7 @@ class FingersModule(object):
         Create controllers for each guide
         :param guide_name: name of the guide to import
         """
+
 
         aim_matrix_guides = [f"{guide}.worldMatrix[0]" for guide in self.guides[:-1]]
         try:
@@ -241,12 +246,67 @@ class FingersModule(object):
                 cmds.matchTransform(grp[0], guide.replace(".worldMatrix[0]", ""))      
 
             # Add setDrivenKeyframe for Curl and Spread
-            if controllers:
-                for attr in ["Curl", "Fan"]:
-                    if self.side == "L":
-                        self.fingers_attributes_callback(grp[1], finger_values=[-90, 20, -25, 15, 20, -20, 30, -30], thumb_values=[0,0,0,0,0,0, 0,0])
-                    elif self.side == "R":
-                        self.fingers_attributes_callback(grp[1], finger_values=[90, -20, 25, -15, -20, 20, -30, 30], thumb_values=[0,0,0,0,0,0, 0,0])
+            cmds.addAttr(self.settings_trn, longName=f"{finger_name}Attributes", attributeType="enum", enumName="———")
+            cmds.setAttr(f"{self.settings_trn}.{finger_name}Attributes", lock=True, keyable=False, channelBox=True)
+
+            sum_value = 0
+
+            for new_attr, value_attr in zip(["Curl", "Spread",  "Twist", "Fan"], ["rz", "ry", "rx", "rz"]): 
+                cmds.addAttr(self.settings_trn, longName=f"{finger_name}{new_attr}", attributeType="float", defaultValue=10,keyable=True)
+                cmds.addAttr(self.settings_trn, longName=f"{finger_name}{new_attr}Negate", attributeType="float", defaultValue=-10,keyable=True)
+
+                remapValue = cmds.createNode("remapValue", name=f"{self.side}_{finger_name}{new_attr}_RMV", ss=True)
+
+                cmds.setAttr(f"{remapValue}.inputMin", -10)
+                cmds.setAttr(f"{remapValue}.inputMax", 10)
+                
+                cmds.connectAttr(f"{self.finger_attributes_ctl}.{new_attr}", remapValue + ".inputValue")
+                cmds.connectAttr(f"{self.settings_trn}.{finger_name}{new_attr}Negate", remapValue + ".outputMin")
+                cmds.connectAttr(f"{self.settings_trn}.{finger_name}{new_attr}", remapValue + ".outputMax")
+
+                cmds.setAttr(f"{remapValue}.value[0].value_Position", 0.0)
+                cmds.setAttr(f"{remapValue}.value[0].value_FloatValue", 0.0)
+                cmds.setAttr(f"{remapValue}.value[0].value_Interp", 1)
+                
+                cmds.setAttr(f"{remapValue}.value[2].value_Position", 1.0)
+                cmds.setAttr(f"{remapValue}.value[2].value_FloatValue", 1.0)
+                cmds.setAttr(f"{remapValue}.value[2].value_Interp", 1)
+                
+                cmds.setAttr(f"{remapValue}.value[1].value_Position", 0.5)
+                cmds.setAttr(f"{remapValue}.value[1].value_Interp", 1)
+
+                subtract = cmds.createNode("subtract", name=f"{self.side}_{finger_name}{new_attr}_SUB", ss=True)
+                negate = cmds.createNode("negate", name=f"{self.side}_{finger_name}{new_attr}_NEG", ss=True)
+                divide = cmds.createNode("divide", name=f"{self.side}_{finger_name}{new_attr}_DIV", ss=True)
+
+                cmds.connectAttr(f"{self.settings_trn}.{finger_name}{new_attr}", subtract + ".input1")
+                cmds.connectAttr(f"{self.settings_trn}.{finger_name}{new_attr}Negate", subtract + ".input2")
+
+                cmds.connectAttr(f"{self.settings_trn}.{finger_name}{new_attr}Negate", negate + ".input")
+                cmds.connectAttr(f"{subtract}.output", f"{divide}.input2")
+                cmds.connectAttr(f"{negate}.output", f"{divide}.input1")
+                
+                cmds.connectAttr(f"{divide}.output", f"{remapValue}.value[1].value_FloatValue")
+
+                if new_attr == "Curl" or new_attr == "Fan":
+                    if sum_value == 0:
+                        sum = cmds.createNode("sum", name=f"{self.side}_{finger_name}{new_attr}_SUM", ss=True)
+                        output_node = f"{sum}.output"
+                    else:
+                        output_node = None
+                    
+                    cmds.connectAttr(f"{remapValue}.outValue", f"{sum}.input[{sum_value}]")
+                    sum_value += 1
+                    
+
+
+                else:
+                    output_node = f"{remapValue}.outValue"
+
+                if output_node:
+                    cmds.connectAttr(output_node, f"{grp[1]}.{value_attr}")
+
+  
 
             joint = cmds.createNode("joint", name=f"{self.side}_{finger_name}_JNT", ss=True, parent=self.skinning_grp)
             cmds.connectAttr(ctl + ".worldMatrix[0]", joint + ".offsetParentMatrix")
@@ -256,22 +316,22 @@ class FingersModule(object):
 
 
         
-    def fingers_attributes_callback(self, ctl, finger_values=[None], thumb_values=[None]):
+    # def fingers_attributes_callback(self, ctl, finger_values=[None], thumb_values=[None]):
 
-        cmds.select(ctl)
+    #     cmds.select(ctl)
         
-        cmds.setDrivenKeyframe(at="rz", dv=0, cd=f"{self.finger_attributes_ctl}.Curl", v=0)
-        cmds.setDrivenKeyframe(at="rz", dv=10, cd=f"{self.finger_attributes_ctl}.Curl", v=finger_values[0])
-        cmds.setDrivenKeyframe(at="rz", dv=-10, cd=f"{self.finger_attributes_ctl}.Curl", v=finger_values[1])
+    #     cmds.setDrivenKeyframe(at="rz", dv=0, cd=f"{self.finger_attributes_ctl}.Curl", v=0)
+    #     cmds.setDrivenKeyframe(at="rz", dv=10, cd=f"{self.finger_attributes_ctl}.Curl", v=finger_values[0])
+    #     cmds.setDrivenKeyframe(at="rz", dv=-10, cd=f"{self.finger_attributes_ctl}.Curl", v=finger_values[1])
 
-        cmds.setDrivenKeyframe(at="ry", dv=0, cd=f"{self.finger_attributes_ctl}.Spread", v=0)
-        cmds.setDrivenKeyframe(at="ry", dv=10, cd=f"{self.finger_attributes_ctl}.Spread", v=finger_values[2])
-        cmds.setDrivenKeyframe(at="ry", dv=-10, cd=f"{self.finger_attributes_ctl}.Spread", v=finger_values[3])
+    #     cmds.setDrivenKeyframe(at="ry", dv=0, cd=f"{self.finger_attributes_ctl}.Spread", v=0)
+    #     cmds.setDrivenKeyframe(at="ry", dv=10, cd=f"{self.finger_attributes_ctl}.Spread", v=finger_values[2])
+    #     cmds.setDrivenKeyframe(at="ry", dv=-10, cd=f"{self.finger_attributes_ctl}.Spread", v=finger_values[3])
 
-        cmds.setDrivenKeyframe(at="rx", dv=0, cd=f"{self.finger_attributes_ctl}.Twist", v=0)
-        cmds.setDrivenKeyframe(at="rx", dv=10, cd=f"{self.finger_attributes_ctl}.Twist", v=finger_values[4])
-        cmds.setDrivenKeyframe(at="rx", dv=-10, cd=f"{self.finger_attributes_ctl}.Twist", v=finger_values[5])
+    #     cmds.setDrivenKeyframe(at="rx", dv=0, cd=f"{self.finger_attributes_ctl}.Twist", v=0)
+    #     cmds.setDrivenKeyframe(at="rx", dv=10, cd=f"{self.finger_attributes_ctl}.Twist", v=finger_values[4])
+    #     cmds.setDrivenKeyframe(at="rx", dv=-10, cd=f"{self.finger_attributes_ctl}.Twist", v=finger_values[5])
 
-        cmds.setDrivenKeyframe(at="rz", dv=0, cd=f"{self.finger_attributes_ctl}.Fan", v=0)
-        cmds.setDrivenKeyframe(at="rz", dv=10, cd=f"{self.finger_attributes_ctl}.Fan", v=finger_values[6])
-        cmds.setDrivenKeyframe(at="rz", dv=-10, cd=f"{self.finger_attributes_ctl}.Fan", v=finger_values[7])
+    #     cmds.setDrivenKeyframe(at="rz", dv=0, cd=f"{self.finger_attributes_ctl}.Fan", v=0)
+    #     cmds.setDrivenKeyframe(at="rz", dv=10, cd=f"{self.finger_attributes_ctl}.Fan", v=finger_values[6])
+    #     cmds.setDrivenKeyframe(at="rz", dv=-10, cd=f"{self.finger_attributes_ctl}.Fan", v=finger_values[7])

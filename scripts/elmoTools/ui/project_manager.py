@@ -145,11 +145,14 @@ def load_asset_configuration(asset_name):
     
     # List files ending with .config on asset_path
     config_files = []
+    settings_files = []
     if os.path.exists(asset_path):
         for fname in os.listdir(asset_path):
             full_path = os.path.join(asset_path, fname)
             if os.path.isfile(full_path) and fname.lower().endswith('.config') and asset_name in fname:
                 config_files.append(full_path)
+            if os.path.isfile(full_path) and fname.lower().endswith('.settings') and asset_name in fname:
+                settings_files.append(full_path)
 
 
     # If multiple .config files are found, use the first one
@@ -162,6 +165,20 @@ def load_asset_configuration(asset_name):
     with open(config_file_path, 'r') as config_file:
         configurations = json.load(config_file)
 
+    ## AQUI GUIDO
+    if settings_files:
+        core.DataManager.set_extra_data_path(settings_files[0])
+        om.MGlobal.displayInfo(f"Extra data file loaded from: {settings_files[0]}")
+    else:
+        extra_attrs_file_path = os.path.join(asset_path, f"{asset_name}extraAttrs.settings")
+        with open(extra_attrs_file_path, 'w') as config_file:
+            json.dump({}, config_file, indent=4)
+        core.DataManager.set_extra_data_path(extra_attrs_file_path)
+        om.MGlobal.displayInfo(f"Extra data file created at: {extra_attrs_file_path}")
+
+        return
+
+    print(core.DataManager.get_extra_data_path())
 
     for folder_names, path in configurations.items():
         if path == "relative":

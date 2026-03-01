@@ -5,6 +5,7 @@ from elmoTools.utils import basic_structure
 from elmoTools.utils import data_export
 from elmoTools.utils import core
 from elmoTools.ui import project_manager
+import elmoTools.utils.export_settings as export_settings   
 
 # ---- RIG MODULES IMPORT ----
 
@@ -71,6 +72,7 @@ reload(project_manager)
 reload(cb)
 reload(tm)
 reload(jmm_old)
+reload(export_settings)
 
 def rename_ctl_shapes():
     """
@@ -359,6 +361,7 @@ def make():
                     update_ui("tongue")
                     tm.TongueModule().make(guide_name)
 
+
     # Create the skeleton hierarchy and spaces
     cmds.progressWindow(edit=True, progress=90, status=(f"Creating the skeleton hierarchy and spaces") )
 
@@ -376,6 +379,8 @@ def make():
     rename_ctl_shapes()
     joint_label()
     setIsHistoricallyInteresting(0)
+    export_settings.import_settings()
+
 
     # End message
     cmds.inViewMessage(

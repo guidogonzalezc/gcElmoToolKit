@@ -14,6 +14,7 @@ from elmoTools.utils import core
 from elmoTools.ui import project_manager
 from elmoTools.tools import skincluster_manager
 from elmoTools.tools import copy_skinweights
+from elmoTools.utils import export_settings
 
 reload(option_menu)
 reload(guide_creation)
@@ -21,6 +22,7 @@ reload(rig_builder)
 reload(curve_tool)
 reload(project_manager)
 reload(skincluster_manager)
+reload(export_settings)
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__)).split("\scripts")[0]
 
@@ -37,13 +39,13 @@ def copy_skinweights_ui_call(*args):
 
 def reload_ui(*args):
     """
-    Function to reload the Puiastre Productions UI.
+    Function to reload the Elmo ToolKit UI.
 
     Args:
         *args: Variable length argument list, not used in this function.
     """
     reload(option_menu)
-    option_menu.puiastre_ui()
+    option_menu.elmo_ui()
 
 
 
@@ -135,6 +137,23 @@ def export_guides(*args, mirror = False):
     om2.MGlobal.displayInfo(f"Exporting guides with mirror set to {mirror}")
     guide_creation.guides_export(mirror=mirror)
 
+def export_settings_call(*args):
+    """
+    Function to export settings from the scene. It gathers keyable attributes from specific transforms and saves them to a JSON file.
+
+    Args:
+        *args: Variable length argument list, not used in this function.
+    """
+    export_settings.export_settings()
+
+def mirror_settings_call(*args):
+    """
+    Function to mirror settings from left to right transforms. It identifies the relevant transforms, gathers their keyable attributes, and applies the values to the mirrored counterparts.
+
+    Args:
+        *args: Variable length argument list, not used in this function.
+    """
+    export_settings.mirror_settings_attributes()
 
 def export_skincluster(*args): 
     """
@@ -200,6 +219,12 @@ def elmo_ui():
     cmds.menuItem(label="   Skinning Tools", subMenu=True, tearOff=True, boldFont=True, image="tumbado.png")
     cmds.menuItem(label="   Export Skin Cluster", command=export_skincluster)
     cmds.menuItem(label="   Copy Skin Cluster", command=copy_skinweights_ui_call)
+    cmds.setParent("ElmoMenu", menu=True)
+    cmds.menuItem(dividerLabel="\n ", divider=True)
+
+    cmds.menuItem(label="   Export Settings", subMenu=True, tearOff=True, boldFont=True, image="tumbado.png")
+    cmds.menuItem(label="   Export Settings", command=export_settings_call)
+    cmds.menuItem(label="   Mirror Settings", command=mirror_settings_call)
     cmds.setParent("ElmoMenu", menu=True)
     cmds.menuItem(dividerLabel="\n ", divider=True)
 
