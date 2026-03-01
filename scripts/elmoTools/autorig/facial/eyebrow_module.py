@@ -409,6 +409,9 @@ class EyebrowModule():
                 joint = cmds.createNode("joint", name=f"{name}_JNT", ss=True, p=self.skinning_trn)
                 cmds.connectAttr(f"{pick_matrix}.outputMatrix", f"{joint}.offsetParentMatrix", force=True)
 
+                joint = cmds.createNode("joint", name=f"{name}Rotation_JNT", ss=True, p=self.skinning_trn)
+                cmds.connectAttr(f"{parentMatrix}.outputMatrix", f"{joint}.offsetParentMatrix", force=True)
+
             self.data_exporter.append_data(f"{self.side}_eyebrowModule", 
                             {"skinning_transform": self.skinning_trn,
 
