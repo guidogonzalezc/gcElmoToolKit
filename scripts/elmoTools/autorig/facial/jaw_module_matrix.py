@@ -90,6 +90,7 @@ class JawModule():
         self.data_exporter.append_data(f"{self.side}_jawModule", 
                                     {"skinning_transform": self.skinning_trn,
                                      "jaw_ctl": self.jaw_ctl,
+                                     "settings_transform": self.transform_settings,
                                     # "neck_ctl": self.main_controllers[0],
 
                                     }
@@ -440,6 +441,7 @@ class JawModule():
             )
 
             corner_projected_ctls.append(ctl)
+            
             cmds.connectAttr(f"{projected_locator}.worldMatrix[0]", f"{ctl_grp[0]}.offsetParentMatrix", force=True)
 
             local_lip_corner_projected = self.local_setup(ctl = ctl, grp = ctl_grp[0])
@@ -481,8 +483,8 @@ class JawModule():
                     kcp=0,
                     kep=1,
                     kt=0,
-                    s=8,
-                    d=3,
+                    s=9,
+                    d=2,
                     tol=0.01,
                     name=curve.replace("Curve_GUIDE", "RebuildEightSpans_CRV")
                 )[0]
@@ -658,6 +660,17 @@ class JawModule():
 
             cv_deboors = [corner_projected_ctls[1], cvs_deboors[2], cvs_deboors[3], projected_locator_mid, cvs_deboors[1], cvs_deboors[0], corner_projected_ctls[0]]
 
+            for cv in cv_deboors:
+                name_split = cv.split("_")
+                name = name_split[0] + "_" + name_split[1]
+
+                temp_decompose = cmds.createNode("decomposeMatrix", name=f"{name}Temp_DCM", ss=True)
+                cmds.connectAttr(f"{cv}.worldMatrix[0]", f"{temp_decompose}.inputMatrix", force=True)
+                cmds.connectAttr(f"{temp_decompose}.outputTranslate", f"{rebuilded_curve_4}.cv[{cv_deboors.index(cv)}]", force=True)
+
+
+
+
             ctls = []
 
             for i, locator in enumerate(cv_deboors):
@@ -672,8 +685,31 @@ class JawModule():
                         parent=self.controllers_trn,
                     )
 
+                    
+                    pos_cv = cmds.xform(f"{rebuilded_curve_4}.cv[{i}]", query=True, worldSpace=True, translation=True)
+                    locator_wm = cmds.getAttr(f"{locator}.worldMatrix[0]")
+                    pos = cmds.xform(locator, query=True, worldSpace=True, translation=True)
 
-                    cmds.connectAttr(f"{locator}.worldMatrix[0]", f"{ctl_grp[0]}.offsetParentMatrix", force=True)
+                    closest_position, closest_parm = core.getClosestParamToWorldMatrixCurve(rebuilded_curve_4, pos, both = True)
+                    # closest_position = core.getPositionFromParmCurve(rebuilded_curve_4, closest_parm)
+
+                    m_matrix = om.MMatrix(locator_wm)
+                    m_matrix_inverse = om.MMatrix(locator_wm).inverse()
+
+                    om.MMatrix.setElement(m_matrix, 3, 0, closest_position[0]) # Translate X
+                    om.MMatrix.setElement(m_matrix, 3, 1, closest_position[1]) # Translate Y
+                    om.MMatrix.setElement(m_matrix, 3, 2, closest_position[2]) # Translate Z
+
+                    offset_matrix = om.MMatrix(m_matrix) * om.MMatrix(m_matrix_inverse)
+                   
+                    mmx_offset = cmds.createNode("multMatrix", name=f"{name}Offset_MMX", ss=True)
+
+                    cmds.setAttr(f"{mmx_offset}.matrixIn[0]", offset_matrix, type="matrix")
+                    cmds.connectAttr(f"{locator}.worldMatrix[0]", f"{mmx_offset}.matrixIn[1]")
+                    cmds.connectAttr(f"{mmx_offset}.matrixSum", f"{ctl_grp[0]}.offsetParentMatrix", force=True)
+
+
+                    # cmds.connectAttr(f"{locator}.worldMatrix[0]", f"{ctl_grp[0]}.offsetParentMatrix", force=True)
 
 
 
@@ -812,7 +848,7 @@ class JawModule():
             offset_nodes = cmds.offsetCurve(
                 rebuilded_curve_8,
                 ch=True, rn=False, cb=2, st=True, cl=True,
-                cr=0, d=0.1, tol=0.01, sd=5, ugn=False
+                cr=0, d=0.5, tol=0.01, sd=0, ugn=False
             )
 
             cmds.setAttr(f"{offset_nodes[-1]}.useGivenNormal", 1)
@@ -854,6 +890,7 @@ class JawModule():
                 curve_cv = f"{renamed_offset_curve}.cv[{u}]"
                 cmds.skinPercent(lip_skincluster_up, curve_cv, transformValue=[
                         (surface_joints[u], 1)])
+                
                 for v in range(len(cmds.ls(f"{lips_surface}.cv[0][*]", flatten=True))):
                     cv = f"{lips_surface}.cv[{u}][{v}]"
                     cmds.skinPercent(lip_skincluster, cv, transformValue=[
