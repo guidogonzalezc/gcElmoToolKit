@@ -377,7 +377,6 @@ def de_boor_ribbon(cvs, aim_axis='x', up_axis='y', num_joints=5, tangent_offset=
 
             fourbyfour = cmds.createNode('fourByFourMatrix', n=f'{name}UpFourByFour0{i}_FBF', ss=True)
 
-
             if up_axis == 'x' or up_axis == '-x':
                 cmds.setAttr(f'{fourbyfour}.in30', 10)
             elif up_axis == 'y' or up_axis == '-y':
@@ -436,13 +435,10 @@ def de_boor_ribbon(cvs, aim_axis='x', up_axis='y', num_joints=5, tangent_offset=
             cmds.setAttr(f'{aim}.primaryInputAxis', *aim_vector)
 
             if i == len(params) - 1:
-                print(aim)
                 next_aim = positions_plugs[-1]
                 cmds.connectAttr(next_aim, f'{aim}.primaryTargetMatrix')
                 a= om.MVector(AXIS_VECTOR[aim_axis])
-                print(a)
                 b = [-a for a in AXIS_VECTOR[aim_axis]]
-                print(b)
                 cmds.setAttr(f'{aim}.primaryInputAxis', b[0],b[1],b[2], type='double3') #*AXIS_VECTOR[aim_axis]*-1
             
 
