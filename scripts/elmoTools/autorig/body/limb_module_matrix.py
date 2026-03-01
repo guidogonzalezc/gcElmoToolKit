@@ -23,6 +23,7 @@ reload(ss)
 reload(core)
 
 AXIS_VECTOR = {'x': (1, 0, 0), '-x': (-1, 0, 0), 'y': (0, 1, 0), '-y': (0, -1, 0), 'z': (0, 0, 1), '-z': (0, 0, -1)}
+VECTOR_TO_AXIS = {v: k for k, v in AXIS_VECTOR.items()}
 
 class LimbModule(object):
 
@@ -71,6 +72,9 @@ class LimbModule(object):
         #Position Joints
         order = [[self.guides[0], self.guides[1], self.guides[2]], [self.guides[1], self.guides[2], self.guides[0]]]
 
+        self.third_axis_vector = self.primary_aim_vector ^ self.secondary_aim_vector
+        self.third_aim = VECTOR_TO_AXIS[tuple(self.third_axis_vector)]
+
         aim_matrix_guides = []
 
         for i in range(len(self.guides)-1):
@@ -79,7 +83,7 @@ class LimbModule(object):
             multmatrix = cmds.createNode("multMatrix", name=f"{self.side}_{self.module_name}GuideOffset0{i+1}_MMX", ss=True)
 
             cmds.setAttr(aim_matrix + ".primaryInputAxis", *self.primary_aim_vector, type="double3")
-            cmds.setAttr(aim_matrix + ".secondaryInputAxis", *self.secondary_aim_vector, type="double3")
+            cmds.setAttr(aim_matrix + ".secondaryInputAxis", *self.third_axis_vector, type="double3")
             
             cmds.setAttr(aim_matrix + ".primaryMode", 1)
             cmds.setAttr(aim_matrix + ".secondaryMode", 1)
@@ -253,6 +257,39 @@ class LimbModule(object):
             cmds.connectAttr(f'{aim_matrix}.outputMatrix', f'{blend_matrix}.target[0].targetMatrix')
 
             return blend_matrix
+
+    def get_axis_info(self, axis_str):
+        """
+        Extracts the matrix row index (0=X, 1=Y, 2=Z) and the mathematical sign.
+        """
+        axis_char = axis_str[-1] # Grabs 'x', 'y', or 'z' ignoring the minus
+        idx = {'x': 0, 'y': 1, 'z': 2}[axis_char]
+        sign = -1 if '-' in axis_str else 1
+        return idx, sign
+    
+    def _matrix_row_connections(self, fourByfour, upper_divide, sin, negate):  
+        aim_idx, aim_sign = self.get_axis_info(self.primary_aim)
+        up_idx, up_sign = self.get_axis_info(self.third_aim)
+
+        cmds.connectAttr(f"{upper_divide}.output", f"{fourByfour}.in{aim_idx}{aim_idx}")
+        cmds.connectAttr(f"{upper_divide}.output", f"{fourByfour}.in{up_idx}{up_idx}")
+
+        is_cyclic = (aim_idx == 0 and up_idx == 1) or \
+            (aim_idx == 1 and up_idx == 2) or \
+            (aim_idx == 2 and up_idx == 0)
+
+        # If one axis is negative (e.g., aim X, up -Y), the bend direction is reversed 
+        # relative to the pole vector. We must invert θ to correct it.
+        invert_theta = (aim_sign * up_sign == -1)
+
+        # Logical XOR: If cyclic state and inversion state mismatch, we swap the sines.
+        if is_cyclic != invert_theta:
+            cmds.connectAttr(f"{sin}.output", f"{fourByfour}.in{aim_idx}{up_idx}")
+            cmds.connectAttr(f"{negate}.output", f"{fourByfour}.in{up_idx}{aim_idx}")
+        else:
+            # Swapped state: Corrects anti-cyclic (Y->X) OR negative axis flips
+            cmds.connectAttr(f"{negate}.output", f"{fourByfour}.in{aim_idx}{up_idx}")
+            cmds.connectAttr(f"{sin}.output", f"{fourByfour}.in{up_idx}{aim_idx}")
 
     def ik_rig(self):
         """
@@ -541,15 +578,16 @@ class LimbModule(object):
         cmds.connectAttr(f"{upper_arm_ik_aim_matrix}.outputMatrix", f"{self.upperArmIkWM}.matrixIn[1]")
         cmds.connectAttr(f"{fourByfour}.output", f"{self.upperArmIkWM}.matrixIn[0]")
 
-        cmds.connectAttr(f"{upper_divide}.output", f"{fourByfour}.in11")
-        cmds.connectAttr(f"{upper_divide}.output", f"{fourByfour}.in00")
-        cmds.connectAttr(f"{sin}.output", f"{fourByfour}.in01")
-        cmds.connectAttr(f"{negate}.output", f"{fourByfour}.in10")
+        self._matrix_row_connections(fourByfour, upper_divide, sin, negate)
 
         cmds.connectAttr(f"{upper_arm_acos}.output", f"{sin}.input")
         cmds.connectAttr(f"{sin}.output", f"{negate}.input")
 
+        negated_third_axis = [-self.third_axis_vector[0], -self.third_axis_vector[1], -self.third_axis_vector[2]]
+
         cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryMode", 1)
+        cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryInputAxis", *negated_third_axis, type="double3")
+        
             
         # Lower
 
@@ -574,20 +612,20 @@ class LimbModule(object):
 
         fourByfour = cmds.createNode("fourByFourMatrix", name=f"{self.side}_{self.module_name}LowerIkLocal_F4X", ss=True)
       
-        cmds.connectAttr(f"{negate_cos_value}.output", f"{fourByfour}.in11")
-        cmds.connectAttr(f"{negate_cos_value}.output", f"{fourByfour}.in00")
-        cmds.connectAttr(f"{lower_sin}.output", f"{fourByfour}.in10")
-        cmds.connectAttr(f"{negate}.output", f"{fourByfour}.in01")
+        # cmds.connectAttr(f"{negate_cos_value}.output", f"{fourByfour}.in11")
+        # cmds.connectAttr(f"{negate_cos_value}.output", f"{fourByfour}.in00")
+        # cmds.connectAttr(f"{lower_sin}.output", f"{fourByfour}.in10")
+        # cmds.connectAttr(f"{negate}.output", f"{fourByfour}.in01")
+
+        self._matrix_row_connections(fourByfour, negate_cos_value, negate, lower_sin)
 
         if self.side == "R":
             translate_negate = cmds.createNode("negate", name=f"{self.side}_{self.module_name}UpperTranslate_NEGATE", ss=True)
             cmds.connectAttr(f"{soft_upper_length_scaled}.output", f"{translate_negate}.input")
             cmds.connectAttr(f"{translate_negate}.output", f"{fourByfour}.in30")
-            cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryInputAxis", 0, -1, 0, type="double3") ########################## CAMBIO QUIZAS
 
         else:
             cmds.connectAttr(f"{soft_upper_length_scaled}.output", f"{fourByfour}.in30")
-            cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryInputAxis", 0, 1, 0, type="double3") ########################## CAMBIO QUIZAS
 
 
         lower_wm_multmatrix = cmds.createNode("multMatrix", name=f"{self.side}_{self.module_name}LowerIkWM_MMX", ss=True)
@@ -747,13 +785,10 @@ class LimbModule(object):
                 suffixes=["GRP", "ANM"],
                 lock=["scaleX", "scaleY", "scaleZ", "visibility"],
                 ro=True,
+                parent=self.bendy_controllers
             )
 
             
-
-
-            cmds.parent(ctl_grp[0], self.bendy_controllers)
-
             initial_matrix = self.shoulder_rotate_matrix if i == 0 else self.blend_wm[i]
 
             blendMatrix = cmds.createNode("blendMatrix", name=f"{self.side}_{self.module_name}{bendy}_BLM", ss=True)
@@ -777,6 +812,14 @@ class LimbModule(object):
             pickMatrix = cmds.createNode("pickMatrix", name=f"{self.side}_{self.module_name}{bendy}Roll_PIM", ss=True)
             cmds.setAttr(f"{pickMatrix}.useRotate", 0)
 
+            value = 2 if i==0 else 1
+
+            cmds.connectAttr(f"{joint02}.worldMatrix[0]", f"{blendMatrix}.target[{value}].targetMatrix")
+            cmds.setAttr(f"{blendMatrix}.target[{value}].scaleWeight", 0)
+            cmds.setAttr(f"{blendMatrix}.target[{value}].translateWeight", 0)
+            cmds.setAttr(f"{blendMatrix}.target[{value}].rotateWeight", 0.5)
+            cmds.setAttr(f"{blendMatrix}.target[{value}].shearWeight", 0)
+    
             if not end_ctls:
 
                 end_ctl, end_ctl_grp = controller_creator(
@@ -842,7 +885,7 @@ class LimbModule(object):
                 t = 0.95 if index == self.twist_number - 1 else index / (float(self.twist_number) - 1)
                 t_values.append(t)
 
-            
+
             joint = de_boors_002.de_boor_ribbon(aim_axis=self.primary_aim, up_axis=self.secondary_aim, cvs= cvMatrices, num_joints=self.twist_number, name = f"{self.side}_{self.module_name}{bendy}", parent=self.skinnging_grp, custom_parm=t_values, axis_change=False) or []
             if bendy == "LowerBendy":
 
@@ -1007,10 +1050,22 @@ class LimbModule(object):
         cmds.setAttr(f"{ball_wm}.secondaryTargetVector", 0,1,0, type="double3")
         cmds.setAttr(f"{ball_wm}.secondaryMode", 2)
 
+        pick_matrix_ball = cmds.createNode("pickMatrix", name=f"{self.side}_{self.module_name}PickBall_PIM", ss=True)
+        cmds.setAttr(f"{pick_matrix_ball}.useRotate", 0)
+        cmds.connectAttr(f"{ball_wm}.outputMatrix", f"{pick_matrix_ball}.inputMatrix")
+
+        parent_matrix_ball = cmds.createNode("parentMatrix", name=f"{self.side}_{self.module_name}NoRotBall_PMX", ss=True)
+        cmds.connectAttr(f"{pick_matrix_ball}.outputMatrix", f"{parent_matrix_ball}.inputMatrix")
+        cmds.connectAttr(f"{ball_wm}.outputMatrix", f"{parent_matrix_ball}.target[0].targetMatrix")
+        offset = core.get_offset_matrix(child = f"{pick_matrix_ball}.outputMatrix", parent=f"{ball_wm}.outputMatrix")
+        cmds.setAttr(f"{parent_matrix_ball}.target[0].offsetMatrix", offset, type="matrix")
+
+        ball_wm = parent_matrix_ball
+
         front_roll_wm = cmds.createNode("multMatrix", name=f"{self.side}_{self.module_name}FrontRollWM_MMX", ss=True)
         cmds.connectAttr(f"{self.frontRoll_ctl}.worldMatrix[0]", f"{front_roll_wm}.matrixIn[0]")
         cmds.connectAttr(f"{self.frontRoll_grp[0]}.worldInverseMatrix[0]", f"{front_roll_wm}.matrixIn[1]")
-        cmds.connectAttr(f"{ball_wm}.outputMatrix", f"{front_roll_wm}.matrixIn[2]")
+        cmds.connectAttr(f"{parent_matrix_ball}.outputMatrix", f"{front_roll_wm}.matrixIn[2]")
 
         cmds.addAttr(self.hand_ik_ctl, shortName="reverseFoot", niceName="Reverse foot  ———", enumName="———",attributeType="enum", keyable=True)
         cmds.setAttr(self.hand_ik_ctl+".reverseFoot", channelBox=True, lock=True)
@@ -1155,7 +1210,7 @@ class ArmModule(LimbModule):
 
         if self.side == "L":
             self.primary_aim = "x"
-            self.secondary_aim = "-y"
+            self.secondary_aim = "y"
 
 
         elif self.side == "R":
