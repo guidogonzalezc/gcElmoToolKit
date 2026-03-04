@@ -14,6 +14,7 @@ from elmoTools.utils import basic_structure
 from elmoTools.utils import guide_creation
 import maya.api.OpenMaya as om
 from elmoTools.utils import de_boor_core_002 as de_boors_002
+from elmoTools.utils import export_settings
 
 from elmoTools.utils.space_switch import fk_switch
 
@@ -316,6 +317,9 @@ class JawModule():
         cmds.addAttr(self.transform_settings, longName="poutLowerRotate", niceName="poutLowerRotate", defaultValue=-0.2, keyable=True)
         cmds.addAttr(self.transform_settings, longName="poutUpperTranslate", niceName="poutUpperTranslate", defaultValue=-0.05, keyable=True)
         cmds.addAttr(self.transform_settings, longName="poutUpperRotate", niceName="poutUpperRotate", defaultValue=2.0, keyable=True)
+
+        export_settings.import_settings()
+
 
         self.average_curve_node = cmds.createNode("avgCurves", name=f"{self.side}_lipsAverage_ACV", ss=True)
         cmds.setAttr(f"{self.average_curve_node}.automaticWeight", 0)
@@ -766,15 +770,30 @@ class JawModule():
                 wts = de_boors_002.de_boor(len(ctls), 3, paramU, kv)
 
                 wt_add = cmds.createNode("wtAddMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}_WTA", ss=True)
+                wt_add_rot = cmds.createNode("wtAddMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rot_WTA", ss=True)
 
                 for matrix_attr, wt, i in zip(pick_matrix_ctls, wts, range(len(pick_matrix_ctls))):
                     if wt < 0.000001:
                         continue
                     
+                    node = matrix_attr.split(".")[0]
+
+                    input_connection = cmds.listConnections(f"{node}.inputMatrix", source=True, destination=False, plugs=True)[0]
+                    cmds.connectAttr(f"{input_connection}", f'{wt_add_rot}.wtMatrix[{i}].matrixIn', force=True)
+
                     cmds.connectAttr(f"{matrix_attr}", f'{wt_add}.wtMatrix[{i}].matrixIn')
                     cmds.setAttr(f'{wt_add}.wtMatrix[{i}].weightIn', wt)
+                    cmds.setAttr(f'{wt_add_rot}.wtMatrix[{i}].weightIn', wt)
 
-                initial_fine_tune.append(f"{wt_add}.matrixSum")
+                aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX", ss=True)
+                cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.inputMatrix")
+                cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
+                cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", 0,1,0, type="double3")
+                cmds.setAttr(f"{aimMatrix_fine}.primaryTargetVector", 0,1,0, type="double3")
+                cmds.setAttr(f"{aimMatrix_fine}.primaryMode", 2)
+
+                # initial_fine_tune.append(f"{wt_add}.matrixSum")
+                initial_fine_tune.append(f"{aimMatrix_fine}.outputMatrix")
 
                 if fine_tune_side == "C":
                     count = 5
@@ -788,6 +807,7 @@ class JawModule():
             for i, fine_tune in enumerate(initial_fine_tune):
                 split = fine_tune.split("_")
                 name = f"{split[0]}_{split[1]}"
+                name = name.replace("Rotation", "")
                 side = split[0]
 
                 joint = cmds.createNode("joint", name=f"{name}_JNT", ss=True, parent=fine_tune_trn)
@@ -802,47 +822,53 @@ class JawModule():
                 cmds.setAttr(f"{ctl_grp[1]}.inheritsTransform", 0)
 
                 if side != "C":
-                    aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name}_AMX", ss=True)
+                    aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name.replace('Rotation', '_AMX')}", ss=True)
                     cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.inputMatrix")
+                    cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.secondaryTargetMatrix")
+                    cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
+                    cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
+                    cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
+
                     if i != len(initial_fine_tune)-1:
                         cmds.connectAttr(f"{initial_fine_tune[i+1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
                     else:
                         cmds.connectAttr(f"{initial_fine_tune[i-1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
-                        cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0)
+                        cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0, type="double3")
 
                     connect_attr_fineTune = f"{aimMatrix_fine}.outputMatrix"
 
                 else:
                     connect_attr_fineTune = fine_tune
 
-                if fine_tune_side == "R" or main_mid_name == "lower":
-                        if fine_tune_side == "R" and main_mid_name == "lower":
-                            multmatrix = core.mirror_behaviour(type=1, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
+                # if fine_tune_side == "R" or main_mid_name == "lower":
+                #         if fine_tune_side == "R" and main_mid_name == "lower":
+                #             multmatrix = core.mirror_behaviour(type=1, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
                         
-                        elif fine_tune_side == "R":
-                            multmatrix = core.mirror_behaviour(type=0, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
+                #         elif fine_tune_side == "R":
+                #             multmatrix = core.mirror_behaviour(type=0, name=f"{name}Mirror", input_matrix=connect_attr_fineTune)
 
-                        else:
-                            multmatrix = core.mirror_behaviour(type=2, name=f"{name}Mirror", input_matrix=connect_attr_fineTune )
+                #         else:
+                #             multmatrix = core.mirror_behaviour(type=2, name=f"{name}Mirror", input_matrix=connect_attr_fineTune )
 
-                        cmds.connectAttr(f"{multmatrix}", f"{ctl_grp[1]}.offsetParentMatrix")
+                #         cmds.connectAttr(f"{multmatrix}", f"{ctl_grp[1]}.offsetParentMatrix")
 
 
-                else:
+                # else:
 
-                    cmds.connectAttr(connect_attr_fineTune, f"{ctl_grp[1]}.offsetParentMatrix", force=True)
+                cmds.connectAttr(connect_attr_fineTune, f"{ctl_grp[1]}.offsetParentMatrix", force=True)
 
                 cmds.matchTransform(ctl_grp[0], ctl_grp[1])
 
                 local_jaw = self.local_setup(ctl_grp[0], ctl)
 
-                blend_matrix = cmds.createNode("blendMatrix", name=f"{name}_BMX", ss=True)
-                cmds.connectAttr(f"{local_jaw}", f"{blend_matrix}.inputMatrix")
-                cmds.connectAttr(f"{ctl}.matrix", f"{blend_matrix}.target[0].targetMatrix")
-                cmds.setAttr(f"{blend_matrix}.target[0].scaleWeight", 0)
-                cmds.setAttr(f"{blend_matrix}.target[0].translateWeight", 0)
-                cmds.setAttr(f"{blend_matrix}.target[0].shearWeight", 0)
-                cmds.connectAttr(f"{blend_matrix}.outputMatrix", f"{joint}.offsetParentMatrix", force=True)
+                # blend_matrix = cmds.createNode("blendMatrix", name=f"{name}_BMX", ss=True)
+                # cmds.connectAttr(f"{local_jaw}", f"{blend_matrix}.inputMatrix")
+                # cmds.connectAttr(f"{ctl}.matrix", f"{blend_matrix}.target[0].targetMatrix")
+                # cmds.setAttr(f"{blend_matrix}.target[0].scaleWeight", 0)
+                # cmds.setAttr(f"{blend_matrix}.target[0].translateWeight", 0)
+                # cmds.setAttr(f"{blend_matrix}.target[0].shearWeight", 0)
+                # cmds.connectAttr(f"{blend_matrix}.outputMatrix", f"{joint}.offsetParentMatrix", force=True)
+                cmds.connectAttr(f"{local_jaw}", f"{joint}.offsetParentMatrix", force=True)
                 surface_joints.append(joint)
 
             offset_nodes = cmds.offsetCurve(
