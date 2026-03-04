@@ -295,9 +295,9 @@ def de_boor_ribbon(cvs, aim_axis='x', up_axis='y', num_joints=5, tangent_offset=
 
         tangent_param = param + tangent_offset
         aim_vector = om.MVector(AXIS_VECTOR[aim_axis])
-        if tangent_param > 1:
-            tangent_param = param - 2 * tangent_offset
-            aim_vector *= -1
+        # if tangent_param > 1:
+        #     tangent_param = param - 2 * tangent_offset
+        #     aim_vector *= -1
 
         tangent_wts = de_boor(len(cvs), d, tangent_param, kv, tol=tol)
         if kv_type == PERIODIC:
@@ -430,9 +430,11 @@ def de_boor_ribbon(cvs, aim_axis='x', up_axis='y', num_joints=5, tangent_offset=
 
         #         cmds.setAttr(f'{aim}.primaryTargetMatrix', trans_wt_mat, type='matrix')
 
+        cmds.setAttr(f'{aim}.primaryInputAxis', *aim_vector)
+
+
         if aim_matrices:
             cmds.connectAttr(position_plug, f'{aim_matrices[-1]}.primaryTargetMatrix')
-            cmds.setAttr(f'{aim}.primaryInputAxis', *aim_vector)
 
             if i == len(params) - 1:
                 next_aim = positions_plugs[-1]
