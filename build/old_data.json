@@ -1,9 +1,9 @@
 {
-    "project_path": "D:\\git\\gcElmoToolKit\\assets\\oto",
-    "ctls_data": "D:\\git\\gcElmoToolKit\\assets\\oto\\curves\\CHAR_oto_001.json",
-    "guide_data": "D:\\git\\gcElmoToolKit\\assets\\oto\\guides\\CHAR_oto_001.guides",
-    "asset_name": "oto",
-    "skinning_data": "D:\\git\\gcElmoToolKit\\assets\\oto\\skinning\\CHAR_oto_001.skn",
-    "model_path": "D:\\git\\gcElmoToolKit\\assets\\oto\\models\\CHAR_oto_0001.ma",
-    "extra_data": "D:\\git\\gcElmoToolKit\\assets\\oto\\CHAR_oto_extraAttrs.settings"
+    "project_path": "D:\\git\\gcElmoToolKit\\assets\\baby",
+    "ctls_data": "D:\\git\\gcElmoToolKit\\assets\\baby\\curves\\CHAR_baby_001.json",
+    "guide_data": "D:\\git\\gcElmoToolKit\\assets\\baby\\guides\\CHAR_baby_001.guides",
+    "asset_name": "baby",
+    "skinning_data": "D:\\git\\gcElmoToolKit\\assets\\baby\\skinning\\CHAR_baby_001.skn",
+    "model_path": "D:\\git\\gcElmoToolKit\\assets\\baby\\models\\CHAR_baby_0001.ma",
+    "extra_data": "D:\\git\\gcElmoToolKit\\assets\\baby\\CHAR_baby_extraAttrs.settings"
 }
