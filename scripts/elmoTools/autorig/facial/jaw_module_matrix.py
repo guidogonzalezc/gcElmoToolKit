@@ -787,10 +787,16 @@ class JawModule():
 
                 aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX", ss=True)
                 cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.inputMatrix")
-                cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
-                cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", 0,1,0, type="double3")
-                cmds.setAttr(f"{aimMatrix_fine}.primaryTargetVector", 0,1,0, type="double3")
+                cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
+                cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.secondaryTargetMatrix")
+
+                cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", 1,0,0, type="double3")
+                cmds.setAttr(f"{aimMatrix_fine}.primaryTargetVector", 1,0,0, type="double3")
                 cmds.setAttr(f"{aimMatrix_fine}.primaryMode", 2)
+
+                cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
+                cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
+                cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
 
                 # initial_fine_tune.append(f"{wt_add}.matrixSum")
                 initial_fine_tune.append(f"{aimMatrix_fine}.outputMatrix")
@@ -821,24 +827,24 @@ class JawModule():
                 
                 cmds.setAttr(f"{ctl_grp[1]}.inheritsTransform", 0)
 
-                if side != "C":
-                    aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name.replace('Rotation', '_AMX')}", ss=True)
-                    cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.inputMatrix")
-                    cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.secondaryTargetMatrix")
-                    cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
-                    cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
-                    cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
+                # if side != "C":
+                #     aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{name.replace('Rotation', '_AMX')}", ss=True)
+                #     cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.inputMatrix")
+                #     cmds.connectAttr(fine_tune, f"{aimMatrix_fine}.secondaryTargetMatrix")
+                #     cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
+                #     cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
+                #     cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
 
-                    if i != len(initial_fine_tune)-1:
-                        cmds.connectAttr(f"{initial_fine_tune[i+1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
-                    else:
-                        cmds.connectAttr(f"{initial_fine_tune[i-1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
-                        cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0, type="double3")
+                #     if i != len(initial_fine_tune)-1:
+                #         cmds.connectAttr(f"{initial_fine_tune[i+1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
+                #     else:
+                #         cmds.connectAttr(f"{initial_fine_tune[i-1]}", f"{aimMatrix_fine}.primaryTargetMatrix")
+                #         cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0, type="double3")
 
-                    connect_attr_fineTune = f"{aimMatrix_fine}.outputMatrix"
+                #     connect_attr_fineTune = f"{aimMatrix_fine}.outputMatrix"
 
-                else:
-                    connect_attr_fineTune = fine_tune
+                # else:
+                connect_attr_fineTune = fine_tune
 
                 # if fine_tune_side == "R" or main_mid_name == "lower":
                 #         if fine_tune_side == "R" and main_mid_name == "lower":
@@ -874,7 +880,7 @@ class JawModule():
             offset_nodes = cmds.offsetCurve(
                 rebuilded_curve_8,
                 ch=True, rn=False, cb=2, st=True, cl=True,
-                cr=0, d=0.5, tol=0.01, sd=0, ugn=False
+                cr=0, d=0.1, tol=0.01, sd=0, ugn=False
             )
 
             cmds.setAttr(f"{offset_nodes[-1]}.useGivenNormal", 1)
