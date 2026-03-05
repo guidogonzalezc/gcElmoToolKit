@@ -41,12 +41,6 @@
     "R_cheekModule": {
         "skinning_transform": "R_cheekFacialSkinning_GRP"
     },
-    "L_lowerEyeSocketModule": {
-        "skinning_transform": "L_lowerEyeSocketFacialSkinning_GRP"
-    },
-    "R_lowerEyeSocketModule": {
-        "skinning_transform": "R_lowerEyeSocketFacialSkinning_GRP"
-    },
     "L_eyeSocketModule": {
         "skinning_transform": "L_eyeSocketFacialSkinning_GRP"
     },
@@ -58,6 +52,12 @@
     },
     "R_cheekBoneModule": {
         "skinning_transform": "R_cheekBoneFacialSkinning_GRP"
+    },
+    "L_lowerEyeSocketModule": {
+        "skinning_transform": "L_lowerEyeSocketFacialSkinning_GRP"
+    },
+    "R_lowerEyeSocketModule": {
+        "skinning_transform": "R_lowerEyeSocketFacialSkinning_GRP"
     },
     "C_tongueModule": {
         "skinning_transform": "C_tongueFacialSkinning_GRP"
