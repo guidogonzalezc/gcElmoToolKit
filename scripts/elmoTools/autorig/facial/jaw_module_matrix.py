@@ -740,7 +740,12 @@ class JawModule():
                 pick_matrix_ctls.append(f"{pickmatrix}.outputMatrix")
                 cmds.setAttr(f"{pickmatrix}.useShear", 0)
                 cmds.setAttr(f"{pickmatrix}.useScale", 0)
-                cmds.setAttr(f"{pickmatrix}.useRotate", 0)
+                # if z == len(ctls)-1 or z == 0:
+
+                cmds.setAttr(f"{pickmatrix}.useRotate", 1)
+                # else:   
+                #     cmds.setAttr(f"{pickmatrix}.useRotate", 0)
+
 
             count = 0
 
@@ -751,6 +756,9 @@ class JawModule():
                     initial_fine_tune.append(pick_matrix_ctls[index])
                 else:
                     corner_fine_tune = pick_matrix_ctls[index]
+
+            aim_matrix = []
+            wt_adds = []
 
             for i in range(1, 10):
                 if i < 5:
@@ -770,7 +778,7 @@ class JawModule():
                 wts = de_boors_002.de_boor(len(ctls), 3, paramU, kv)
 
                 wt_add = cmds.createNode("wtAddMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}_WTA", ss=True)
-                wt_add_rot = cmds.createNode("wtAddMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rot_WTA", ss=True)
+                # wt_add_rot = cmds.createNode("wtAddMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rot_WTA", ss=True)
 
                 for matrix_attr, wt, i in zip(pick_matrix_ctls, wts, range(len(pick_matrix_ctls))):
                     if wt < 0.000001:
@@ -779,30 +787,47 @@ class JawModule():
                     node = matrix_attr.split(".")[0]
 
                     input_connection = cmds.listConnections(f"{node}.inputMatrix", source=True, destination=False, plugs=True)[0]
-                    cmds.connectAttr(f"{input_connection}", f'{wt_add_rot}.wtMatrix[{i}].matrixIn', force=True)
+                    # cmds.connectAttr(f"{input_connection}", f'{wt_add_rot}.wtMatrix[{i}].matrixIn', force=True)
 
                     cmds.connectAttr(f"{matrix_attr}", f'{wt_add}.wtMatrix[{i}].matrixIn')
                     cmds.setAttr(f'{wt_add}.wtMatrix[{i}].weightIn', wt)
-                    cmds.setAttr(f'{wt_add_rot}.wtMatrix[{i}].weightIn', wt)
+                    # cmds.setAttr(f'{wt_add_rot}.wtMatrix[{i}].weightIn', wt)
 
-                aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX", ss=True)
-                cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.inputMatrix")
-                cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
-                cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.secondaryTargetMatrix")
+                # aimMatrix_fine = cmds.createNode("aimMatrix", name=f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX", ss=True)
+                # cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.inputMatrix")
+                # cmds.connectAttr(f"{wt_add}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
+                # cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
+                # cmds.connectAttr(f"{wt_add_rot}.matrixSum", f"{aimMatrix_fine}.secondaryTargetMatrix")
 
-                cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", 1,0,0, type="double3")
-                cmds.setAttr(f"{aimMatrix_fine}.primaryTargetVector", 1,0,0, type="double3")
-                cmds.setAttr(f"{aimMatrix_fine}.primaryMode", 2)
+                # cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", 1,0,0, type="double3")
+                # cmds.setAttr(f"{aimMatrix_fine}.primaryTargetVector", 1,0,0, type="double3")
+                # cmds.setAttr(f"{aimMatrix_fine}.primaryMode", 1)
 
-                cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
-                cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
-                cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
+                # cmds.setAttr(f"{aimMatrix_fine}.secondaryInputAxis", 0,1,0, type="double3")
+                # cmds.setAttr(f"{aimMatrix_fine}.secondaryTargetVector", 0,1,0, type="double3")
+                # cmds.setAttr(f"{aimMatrix_fine}.secondaryMode", 2)
+
+                # print(f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX")
+                # if aim_matrix:
+                #     print(i)
+                #     if fine_tune_side == "L" and count:   
+                #         print("dentro", f"{fine_tune_side}_{main_mid_name}FineTune0{count}Rotation_AMX") 
+                #         cmds.connectAttr(f"{wt_adds[-1]}.matrixSum", f"{aimMatrix_fine}.primaryTargetMatrix")
+                #         cmds.setAttr(f"{aimMatrix_fine}.primaryInputAxis", -1,0,0, type="double3")
+
+                    
+                    
+                #     cmds.connectAttr(f"{wt_add}.matrixSum", f"{aim_matrix[-1]}.primaryTargetMatrix")
 
                 # initial_fine_tune.append(f"{wt_add}.matrixSum")
-                initial_fine_tune.append(f"{aimMatrix_fine}.outputMatrix")
+                initial_fine_tune.append(f"{wt_add}.matrixSum")
 
                 if fine_tune_side == "C":
                     count = 5
+
+                # aim_matrix.append(aimMatrix_fine)
+                wt_adds.append(wt_add)
+
 
             initial_fine_tune.append(corner_fine_tune)
 
