@@ -112,13 +112,22 @@ class EyebrowModule():
         
         cmds.connectAttr(f"{self.guides[0]}.worldMatrix[0]", f"{self.center_main_ctl_grp[0]}.offsetParentMatrix", force=True)
 
+        parentMatrix_center_eyebroww = cmds.createNode("parentMatrix", name=f"C_eyebrowCenter_PM", ss=True)
+        cmds.connectAttr(f"{self.guides[0]}.worldMatrix[0]", f"{parentMatrix_center_eyebroww}.inputMatrix", force=True)
+
+        multmatrix = cmds.createNode("multMatrix", name=f"C_eyebrowCenter_MMX", ss=True)
+        cmds.connectAttr(f"{parentMatrix_center_eyebroww}.outputMatrix", f"{multmatrix}.matrixIn[0]", force=True)
+        cmds.connectAttr(f"{self.guides[0]}.worldInverseMatrix[0]", f"{multmatrix}.matrixIn[1]", force=True)
+        cmds.connectAttr(f"{multmatrix}.matrixSum", f"{self.center_main_ctl_grp[1]}.offsetParentMatrix", force=True)   
+
+
         mmx = core.local_mmx(self.center_main_ctl, self.center_main_ctl_grp[0]) 
         self.center_joint = cmds.createNode("joint", name=f"C_eyebrowCenter_JNT")
         cmds.connectAttr(mmx, f"{self.center_joint}.offsetParentMatrix", force=True)
 
 
 
-        for curve in self.curves:
+        for curve_index, curve in enumerate(self.curves):
             
             self.side = curve.split("_")[0]
             self.skinning_trn = cmds.createNode("transform", name=f"{self.side}_eyebrowFacialSkinning_GRP", ss=True, p=self.skel_grp)
@@ -405,6 +414,12 @@ class EyebrowModule():
                 pick_matrix = cmds.createNode("pickMatrix", name=f"{name}Sliding_PMK", ss=True)
                 cmds.connectAttr(f"{parentMatrix}.outputMatrix", f"{pick_matrix}.inputMatrix", force=True)
                 cmds.setAttr(f"{pick_matrix}.useRotate", 0)
+
+                if i == 0:
+                    offset = core.get_offset_matrix(f"{self.guides[0]}.worldMatrix", f"{pick_matrix}.outputMatrix")
+                    cmds.setAttr(f"{parentMatrix_center_eyebroww}.target[{curve_index}].offsetMatrix", offset, type="matrix")
+                    cmds.connectAttr(f"{pick_matrix}.outputMatrix", f"{parentMatrix_center_eyebroww}.target[{curve_index}].targetMatrix", force=True)
+                    cmds.setAttr(f"{parentMatrix_center_eyebroww}.target[{curve_index}].weight", 0.25)
 
                 joint = cmds.createNode("joint", name=f"{name}_JNT", ss=True, p=self.skinning_trn)
                 cmds.connectAttr(f"{pick_matrix}.outputMatrix", f"{joint}.offsetParentMatrix", force=True)
