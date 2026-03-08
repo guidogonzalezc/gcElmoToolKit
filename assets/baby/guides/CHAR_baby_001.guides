@@ -875,6 +875,44 @@
             "controllerNumber": "Child",
             "guide_type_object": "Curve"
         },
+        "C_upperTeeth_GUIDE": {
+            "worldPosition": [
+                0.0,
+                100.82962036132812,
+                5.032297909259796
+            ],
+            "worldRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "parent": "C_jaw_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Guide"
+        },
+        "C_lowerTeeth_GUIDE": {
+            "worldPosition": [
+                0.0,
+                98.56025695800781,
+                5.504906177520752
+            ],
+            "worldRotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "parent": "C_jaw_GUIDE",
+            "jointTwist": "Child",
+            "type": 0,
+            "moduleName": "Child",
+            "prefix": "Child",
+            "controllerNumber": "Child",
+            "guide_type_object": "Child"
+        },
         "C_jaw_GUIDE": {
             "worldPosition": [
                 0.0,
