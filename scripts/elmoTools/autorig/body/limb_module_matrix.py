@@ -72,8 +72,17 @@ class LimbModule(object):
         #Position Joints
         order = [[self.guides[0], self.guides[1], self.guides[2]], [self.guides[1], self.guides[2], self.guides[0]]]
 
-        self.third_axis_vector = self.primary_aim_vector ^ self.secondary_aim_vector
+        if core.DataManager.get_asset_name() in ["varyndor", "aychedral", "azhurean"]:
+            self.third_axis_vector = (0,-1,0)
+        else:
+            self.third_axis_vector = self.primary_aim_vector ^ self.secondary_aim_vector
+
         self.third_aim = VECTOR_TO_AXIS[tuple(self.third_axis_vector)]
+
+        
+
+
+
 
         aim_matrix_guides = []
 
@@ -584,6 +593,10 @@ class LimbModule(object):
         cmds.connectAttr(f"{sin}.output", f"{negate}.input")
 
         negated_third_axis = [-self.third_axis_vector[0], -self.third_axis_vector[1], -self.third_axis_vector[2]]
+
+        if core.DataManager.get_asset_name() in ["varyndor", "aychedral", "azhurean"]:
+            negated_third_axis = [0,-1,0]
+
 
         cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryMode", 1)
         cmds.setAttr(upper_arm_ik_aim_matrix + ".secondaryInputAxis", *negated_third_axis, type="double3")
@@ -1208,15 +1221,27 @@ class ArmModule(LimbModule):
 
         self.ikHandleEnabled = False
 
-        if self.side == "L":
-            self.primary_aim = "x"
-            self.secondary_aim = "y"
 
 
-        elif self.side == "R":
-            self.primary_aim = "-x"
-            self.secondary_aim = "y"
+        if not core.DataManager.get_asset_name() in ["varyndor", "aychedral", "azhurean"]:
+            if self.side == "L":
+                self.primary_aim = "x"
+                self.secondary_aim = "y"
 
+
+            elif self.side == "R":
+                self.primary_aim = "-x"
+                self.secondary_aim = "y"
+            
+        else:
+            if self.side == "L":
+                self.primary_aim = "x"
+                self.secondary_aim = "z"
+
+
+            elif self.side == "R":
+                self.primary_aim = "-x"
+                self.secondary_aim = "z"
 
 
         self.default_ik = 1
