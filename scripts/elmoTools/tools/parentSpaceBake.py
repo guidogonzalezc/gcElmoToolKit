@@ -87,15 +87,25 @@ class SmartOffsetBaker:
         for ctl, offset_mmat in self.cached_offsets.items():
             if cmds.objExists(ctl):
                 
-                # Multiply Offset by the New Parent Matrix to get the New World Matrix
+                # 1. Calculate the New World Matrix
+                # $NewWorld = Offset \times NewReferenceWorld$
                 new_world_mmat = offset_mmat * new_ref_mmat
                 
-                trans_matrix = om.MTransformationMatrix(new_world_mmat)
+                # 2. Get the controller's parent inverse matrix
+                parent_inv_list = cmds.getAttr(f"{ctl}.parentInverseMatrix[0]")
+                parent_inv_mmat = om.MMatrix(parent_inv_list)
                 
-                # Extract Translation
-                pos = trans_matrix.translation(om.MSpace.kWorld)
+                # 3. Calculate the New Local Matrix
+                # $LocalMatrix = NewWorldMatrix \times ParentInverseMatrix$
+                new_local_mmat = new_world_mmat * parent_inv_mmat
                 
-                # Extract Rotation matching the CTL's rotate order (Maya uses 0-based, OM2 uses 1-based)
+                # 4. Decompose the LOCAL matrix
+                trans_matrix = om.MTransformationMatrix(new_local_mmat)
+                
+                # Extract Translation (Now in Local Space)
+                pos = trans_matrix.translation(om.MSpace.kTransform)
+                
+                # Extract Rotation matching the CTL's rotate order
                 rot_order = cmds.getAttr(f"{ctl}.rotateOrder")
                 trans_matrix.reorderRotation(rot_order + 1)
                 euler_rot = trans_matrix.rotation(asQuaternion=False)
@@ -105,19 +115,18 @@ class SmartOffsetBaker:
                 rz = math.degrees(euler_rot.z)
                 
                 try:
-                    cmds.xform(ctl, worldSpace=True, absolute=True, translation=[pos.x, pos.y, pos.z])
-                    cmds.xform(ctl, worldSpace=True, absolute=True, rotation=[rx, ry, rz])
+                    # 5. Set attributes directly instead of using xform
+                    cmds.setAttr(f"{ctl}.translate", pos.x, pos.y, pos.z)
+                    cmds.setAttr(f"{ctl}.rotate", rx, ry, rz)
+                    
                     cmds.setKeyframe(ctl, attribute=['translate', 'rotate'])
                 except RuntimeError as e:
                     om.MGlobal.displayWarning(f"Could not fully snap {ctl}. Error: {e}")
         
         om.MGlobal.displayInfo(f"IK Controllers snapped to maintain offset with {self.reference_ctl} and keyed.")
 
-#global_baker = SmartOffsetBaker()
+# global_baker = SmartOffsetBaker()
 
-
-#global_baker.store_positions()
-
-
+# global_baker.store_positions()
 
 global_baker.snap_and_key()
