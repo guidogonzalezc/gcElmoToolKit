@@ -1,15 +1,72 @@
 {
     "basic_structure": {
-        "modules_GRP": "setup",
-        "skel_GRP": "setup_jnt_org",
-        "masterWalk_CTL": "masterWalk",
-        "guides_GRP": "guide",
-        "skeletonHierarchy_GRP": "out_skel_facial",
-        "muscleLocators_GRP": "muscleSystems_GRP",
-        "adonis_GRP": "adonis"
+        "modules_GRP": "modules_GRP",
+        "skel_GRP": "skel_GRP",
+        "masterWalk_CTL": "C_masterWalk_CTL",
+        "guides_GRP": "guides_GRP",
+        "skeletonHierarchy_GRP": "skeletonHierarchy_GRP",
+        "model_GRP": "model_GRP",
+        "skelModel_GRP": null,
+        "muscleModel_GRP": null
+    },
+    "L_legModule": {
+        "skinning_transform": "L_legSkinningJoints_GRP",
+        "fk_ctl": [
+            "L_hipFk_CTL",
+            "L_kneeFk_CTL",
+            "L_ankleFk_CTL",
+            "L_footFk_CTL"
+        ],
+        "pv_ctl": "L_legPV_CTL",
+        "root_ctl": "L_legRootIk_CTL",
+        "end_ik": "L_legIk_CTL"
+    },
+    "R_legModule": {
+        "skinning_transform": "R_legSkinningJoints_GRP",
+        "fk_ctl": [
+            "R_hipFk_CTL",
+            "R_kneeFk_CTL",
+            "R_ankleFk_CTL",
+            "R_footFk_CTL"
+        ],
+        "pv_ctl": "R_legPV_CTL",
+        "root_ctl": "R_legRootIk_CTL",
+        "end_ik": "R_legIk_CTL"
+    },
+    "L_armModule": {
+        "skinning_transform": "L_armSkinningJoints_GRP",
+        "fk_ctl": [
+            "L_shoulderFk_CTL",
+            "L_elbowFk_CTL",
+            "L_wristFk_CTL"
+        ],
+        "pv_ctl": "L_armPV_CTL",
+        "root_ctl": "L_armRootIk_CTL",
+        "end_ik": "L_armIk_CTL",
+        "scapula_ctl": "L_scapula_CTL"
+    },
+    "R_armModule": {
+        "skinning_transform": "R_armSkinningJoints_GRP",
+        "fk_ctl": [
+            "R_shoulderFk_CTL",
+            "R_elbowFk_CTL",
+            "R_wristFk_CTL"
+        ],
+        "pv_ctl": "R_armPV_CTL",
+        "root_ctl": "R_armRootIk_CTL",
+        "end_ik": "R_armIk_CTL",
+        "scapula_ctl": "R_scapula_CTL"
+    },
+    "C_spineModule": {
+        "skinning_transform": "C_spineSkinning_GRP",
+        "body_ctl": "C_body_CTL",
+        "localHip": "C_localHip_CTL",
+        "localChest": "C_localChest_CTL",
+        "main_ctl": "C_localHip_JNT",
+        "end_main_ctl": "C_localChest_CTL"
     },
     "C_neckModule": {
-        "skinning_transform": "C_neck4_JNT",
+        "skinning_transform": "C_neckSkinning_GRP",
         "neck_ctl": "C_neck01_CTL",
         "head_ctl": "C_head_CTL"
     },
@@ -41,17 +98,17 @@
     "R_cheekModule": {
         "skinning_transform": "R_cheekFacialSkinning_GRP"
     },
-    "L_eyeSocketModule": {
-        "skinning_transform": "L_eyeSocketFacialSkinning_GRP"
-    },
-    "R_eyeSocketModule": {
-        "skinning_transform": "R_eyeSocketFacialSkinning_GRP"
-    },
     "L_cheekBoneModule": {
         "skinning_transform": "L_cheekBoneFacialSkinning_GRP"
     },
     "R_cheekBoneModule": {
         "skinning_transform": "R_cheekBoneFacialSkinning_GRP"
+    },
+    "L_eyeSocketModule": {
+        "skinning_transform": "L_eyeSocketFacialSkinning_GRP"
+    },
+    "R_eyeSocketModule": {
+        "skinning_transform": "R_eyeSocketFacialSkinning_GRP"
     },
     "L_lowerEyeSocketModule": {
         "skinning_transform": "L_lowerEyeSocketFacialSkinning_GRP"
@@ -61,5 +118,15 @@
     },
     "C_tongueModule": {
         "skinning_transform": "C_tongueFacialSkinning_GRP"
+    },
+    "L_FkFingersModule": {
+        "skinning_transform": "L_fkFingersSkinningJoints",
+        "attributes_ctl": "L_fkFingersAttributes_CTL",
+        "settings_transform": "L_fkFingersSettings_TRN"
+    },
+    "R_FkFingersModule": {
+        "skinning_transform": "R_fkFingersSkinningJoints",
+        "attributes_ctl": "R_fkFingersAttributes_CTL",
+        "settings_transform": "R_fkFingersSettings_TRN"
     }
 }
