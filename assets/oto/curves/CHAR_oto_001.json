@@ -1531,7 +1531,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|C_lowerFineTune00_GRP|C_lowerFineTune00_OFF|C_lowerFineTune00_ANM|C_lowerFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|C_lowerFineTune00_GRP|C_lowerFineTune00_OFF|C_lowerFineTune00_ANM|C_lowerFineTune00_CTL": {
         "transform": {
             "name": "C_lowerFineTune00_CTL",
             "overrideEnabled": true,
@@ -1547,59 +1547,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.07186578857415987,
-                            0.570789647761351,
-                            -1.1407578510655236
+                            -0.1882006195098163,
+                            0.45301518822873255,
+                            -1.6521793602484494
                         ],
                         [
-                            0.00463216655112687,
-                            0.5428000999032265,
-                            -1.1362936760665445
+                            -0.2535748682181796,
+                            0.4271601218298833,
+                            -1.6355723115413303
                         ],
                         [
-                            -0.06260229962026906,
-                            0.5693775604995551,
-                            -1.140532631111708
+                            -0.31959576819419844,
+                            0.45513070478803147,
+                            -1.6318859183357282
                         ],
                         [
-                            -0.0904525715157393,
-                            0.6349533135864386,
-                            -1.1509915938258466
+                            -0.34758917163199793,
+                            0.5205421489537696,
+                            -1.643279619775244
                         ],
                         [
-                            -0.06260433757469525,
-                            0.7011139723684146,
-                            -1.1615438456993727
+                            -0.32115692245469674,
+                            0.5850773174692239,
+                            -1.6630791400822398
                         ],
                         [
-                            0.00462928444833775,
-                            0.7291035202265383,
-                            -1.1660080206983516
+                            -0.2557826737463331,
+                            0.6109323838680715,
+                            -1.6796861887893586
                         ],
                         [
-                            0.07186375061973357,
-                            0.7025260596302109,
-                            -1.1617690656531883
+                            -0.18976177377031478,
+                            0.5829618009099249,
+                            -1.6833725819949608
                         ],
                         [
-                            0.09971402251520381,
-                            0.6369503065433259,
-                            -1.1513101029390496
+                            -0.16176837033251545,
+                            0.5175503567441854,
+                            -1.671978880555445
                         ],
                         [
-                            0.07186578857415987,
-                            0.570789647761351,
-                            -1.1407578510655236
+                            -0.1882006195098163,
+                            0.45301518822873255,
+                            -1.6521793602484494
                         ],
                         [
-                            0.00463216655112687,
-                            0.5428000999032265,
-                            -1.1362936760665445
+                            -0.2535748682181796,
+                            0.4271601218298833,
+                            -1.6355723115413303
                         ],
                         [
-                            -0.06260229962026906,
-                            0.5693775604995551,
-                            -1.140532631111708
+                            -0.31959576819419844,
+                            0.45513070478803147,
+                            -1.6318859183357282
                         ]
                     ],
                     "form": "periodic",
@@ -1784,6 +1784,218 @@
                             -0.5441413494922587,
                             0.7540563958829557,
                             0.5054863140667288
+                        ]
+                    ],
+                    "form": "periodic",
+                    "knots": [
+                        -2.0,
+                        -1.0,
+                        0.0,
+                        1.0,
+                        2.0,
+                        3.0,
+                        4.0,
+                        5.0,
+                        6.0,
+                        7.0,
+                        8.0,
+                        9.0,
+                        10.0
+                    ],
+                    "degree": 3
+                }
+            }
+        ]
+    },
+    "|OTO|masterWalk|C_jawControllers_GRP|C_lowerTeeth_GRP|C_lowerTeeth_OFF|C_lowerTeeth_ANM|C_lowerTeeth_CTL": {
+        "transform": {
+            "name": "C_lowerTeeth_CTL",
+            "overrideEnabled": true,
+            "overrideColor": 22
+        },
+        "shapes": [
+            {
+                "name": "C_lowerTeeth_CTLShape",
+                "overrideEnabled": false,
+                "overrideColor": null,
+                "alwaysDrawOnTop": false,
+                "lineWidth": -1.0,
+                "curve": {
+                    "cvs": [
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ]
+                    ],
+                    "form": "open",
+                    "knots": [
+                        0.0,
+                        1.0,
+                        2.0,
+                        3.0,
+                        4.0,
+                        5.0,
+                        6.0,
+                        7.0,
+                        8.0,
+                        9.0,
+                        10.0,
+                        11.0,
+                        12.0,
+                        13.0,
+                        14.0,
+                        15.0
+                    ],
+                    "degree": 1
+                }
+            }
+        ]
+    },
+    "|OTO|masterWalk|C_jawControllers_GRP|C_mainMouth_GRP|C_mainMouth_CTL": {
+        "transform": {
+            "name": "C_mainMouth_CTL",
+            "overrideEnabled": true,
+            "overrideColor": 17
+        },
+        "shapes": [
+            {
+                "name": "C_mainMouth_CTLShape",
+                "overrideEnabled": false,
+                "overrideColor": null,
+                "alwaysDrawOnTop": false,
+                "lineWidth": -1.0,
+                "curve": {
+                    "cvs": [
+                        [
+                            1.0806960081232806,
+                            0.3435242338991688,
+                            1.2867061111488454
+                        ],
+                        [
+                            6.785732323110912e-17,
+                            0.34352541268997194,
+                            1.2867061111488454
+                        ],
+                        [
+                            -1.0806960081232806,
+                            0.3435242338991688,
+                            1.2867061111488454
+                        ],
+                        [
+                            -1.1081941875543881,
+                            -1.080991669923189e-12,
+                            1.2867061111488454
+                        ],
+                        [
+                            -1.0806960081232806,
+                            -0.343524233901704,
+                            1.2867061111488454
+                        ],
+                        [
+                            -1.1100856969603225e-16,
+                            -0.34352541269250747,
+                            1.2867061111488454
+                        ],
+                        [
+                            1.0806960081232806,
+                            -0.343524233901704,
+                            1.2867061111488454
+                        ],
+                        [
+                            1.1081941875543881,
+                            -1.0810674176702852e-12,
+                            1.2867061111488454
+                        ],
+                        [
+                            1.0806960081232806,
+                            0.3435242338991688,
+                            1.2867061111488454
+                        ],
+                        [
+                            6.785732323110912e-17,
+                            0.34352541268997194,
+                            1.2867061111488454
+                        ],
+                        [
+                            -1.0806960081232806,
+                            0.3435242338991688,
+                            1.2867061111488454
                         ]
                     ],
                     "form": "periodic",
@@ -6225,7 +6437,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|C_upperFineTune00_GRP|C_upperFineTune00_OFF|C_upperFineTune00_ANM|C_upperFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|C_upperFineTune00_GRP|C_upperFineTune00_OFF|C_upperFineTune00_ANM|C_upperFineTune00_CTL": {
         "transform": {
             "name": "C_upperFineTune00_CTL",
             "overrideEnabled": true,
@@ -6241,59 +6453,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.06903969528101803,
-                            0.8092249017774693,
-                            1.3288041431068247
+                            -0.23056876910924304,
+                            0.9563081950080192,
+                            2.053761653648286
                         ],
                         [
-                            0.0017979596473096278,
-                            0.8371973794768826,
-                            1.3242879583818317
+                            -0.29596046332122855,
+                            0.9821372184781194,
+                            2.037113644860264
                         ],
                         [
-                            -0.0654432040805634,
-                            0.8106395176741577,
-                            1.3285756621128741
+                            -0.36200216390692014,
+                            0.9541896611178637,
+                            2.0335357539942485
                         ],
                         [
-                            -0.09329483414056286,
-                            0.7451085516257001,
-                            1.3391555756057454
+                            -0.3900075383454024,
+                            0.888836822993692,
+                            2.045123860994862
                         ],
                         [
-                            -0.06544182337773899,
-                            0.6789916324872869,
-                            1.3498301290250552
+                            -0.36357141810994925,
+                            0.8243615103391693,
+                            2.0650898099433728
                         ],
                         [
-                            0.0017999122559696108,
-                            0.6510191547878739,
-                            1.3543463137500482
+                            -0.29817972389796327,
+                            0.7985324868690693,
+                            2.0817378187313946
                         ],
                         [
-                            0.06904107598384254,
-                            0.6775770165905988,
-                            1.3500586100190057
+                            -0.23213802331227204,
+                            0.8264800442293243,
+                            2.08531570959741
                         ],
                         [
-                            0.09689270604384198,
-                            0.7431079826390555,
-                            1.3394786965261347
+                            -0.20413264887378998,
+                            0.8918328823534962,
+                            2.0737276025967977
                         ],
                         [
-                            0.06903969528101803,
-                            0.8092249017774693,
-                            1.3288041431068247
+                            -0.23056876910924304,
+                            0.9563081950080192,
+                            2.053761653648286
                         ],
                         [
-                            0.0017979596473096278,
-                            0.8371973794768826,
-                            1.3242879583818317
+                            -0.29596046332122855,
+                            0.9821372184781194,
+                            2.037113644860264
                         ],
                         [
-                            -0.0654432040805634,
-                            0.8106395176741577,
-                            1.3285756621128741
+                            -0.36200216390692014,
+                            0.9541896611178637,
+                            2.0335357539942485
                         ]
                     ],
                     "form": "periodic",
@@ -6589,6 +6801,126 @@
                         10.0
                     ],
                     "degree": 3
+                }
+            }
+        ]
+    },
+    "|OTO|masterWalk|C_jawControllers_GRP|C_upperTeeth_GRP|C_upperTeeth_OFF|C_upperTeeth_ANM|C_upperTeeth_CTL": {
+        "transform": {
+            "name": "C_upperTeeth_CTL",
+            "overrideEnabled": true,
+            "overrideColor": 17
+        },
+        "shapes": [
+            {
+                "name": "C_upperTeeth_CTLShape",
+                "overrideEnabled": false,
+                "overrideColor": null,
+                "alwaysDrawOnTop": false,
+                "lineWidth": -1.0,
+                "curve": {
+                    "cvs": [
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            0.7169850281802475
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            0.38049616979957834,
+                            0.46069130348936504,
+                            -0.04400731141890679
+                        ],
+                        [
+                            0.38049616979957834,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ],
+                        [
+                            -0.38049616979958,
+                            -0.30030103610978937,
+                            -0.04400731141890679
+                        ]
+                    ],
+                    "form": "open",
+                    "knots": [
+                        0.0,
+                        1.0,
+                        2.0,
+                        3.0,
+                        4.0,
+                        5.0,
+                        6.0,
+                        7.0,
+                        8.0,
+                        9.0,
+                        10.0,
+                        11.0,
+                        12.0,
+                        13.0,
+                        14.0,
+                        15.0
+                    ],
+                    "degree": 1
                 }
             }
         ]
@@ -12237,7 +12569,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower01Tan02_CTLShape31",
+                "name": "L_eyelidsLower01Tan02_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -12320,7 +12652,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower01Tan02_CTLShape32",
+                "name": "L_eyelidsLower01Tan02_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -12495,7 +12827,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower02Tan01_CTLShape31",
+                "name": "L_eyelidsLower02Tan01_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -12578,7 +12910,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower02Tan01_CTLShape32",
+                "name": "L_eyelidsLower02Tan01_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -12753,7 +13085,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower02Tan02_CTLShape31",
+                "name": "L_eyelidsLower02Tan02_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -12836,7 +13168,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower02Tan02_CTLShape32",
+                "name": "L_eyelidsLower02Tan02_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13103,7 +13435,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower03Tan01_CTLShape31",
+                "name": "L_eyelidsLower03Tan01_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13186,7 +13518,7 @@
                 }
             },
             {
-                "name": "L_eyelidsLower03Tan01_CTLShape32",
+                "name": "L_eyelidsLower03Tan01_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13361,7 +13693,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper01Tan02_CTLShape31",
+                "name": "L_eyelidsUpper01Tan02_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13444,7 +13776,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper01Tan02_CTLShape32",
+                "name": "L_eyelidsUpper01Tan02_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13619,7 +13951,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper02Tan01_CTLShape31",
+                "name": "L_eyelidsUpper02Tan01_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13702,7 +14034,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper02Tan01_CTLShape32",
+                "name": "L_eyelidsUpper02Tan01_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13877,7 +14209,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper02Tan02_CTLShape31",
+                "name": "L_eyelidsUpper02Tan02_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -13960,7 +14292,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper02Tan02_CTLShape32",
+                "name": "L_eyelidsUpper02Tan02_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -14227,7 +14559,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper03Tan01_CTLShape31",
+                "name": "L_eyelidsUpper03Tan01_CTLShape35",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -14310,7 +14642,7 @@
                 }
             },
             {
-                "name": "L_eyelidsUpper03Tan01_CTLShape32",
+                "name": "L_eyelidsUpper03Tan01_CTLShape36",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -23412,7 +23744,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_lowerFineTune00_GRP|L_lowerFineTune00_OFF|L_lowerFineTune00_ANM|L_lowerFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_lowerFineTune00_GRP|L_lowerFineTune00_OFF|L_lowerFineTune00_ANM|L_lowerFineTune00_CTL": {
         "transform": {
             "name": "L_lowerFineTune00_CTL",
             "overrideEnabled": true,
@@ -23504,7 +23836,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_lowerFineTune01_GRP|L_lowerFineTune01_OFF|L_lowerFineTune01_ANM|L_lowerFineTune01_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_lowerFineTune01_GRP|L_lowerFineTune01_OFF|L_lowerFineTune01_ANM|L_lowerFineTune01_CTL": {
         "transform": {
             "name": "L_lowerFineTune01_CTL",
             "overrideEnabled": true,
@@ -23520,59 +23852,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.06754139067270477,
-                            0.02378478999496396,
-                            0.8938323297292177
+                            0.06754139067270762,
+                            0.20936622807033092,
+                            -0.828562272039434
                         ],
                         [
-                            -1.5761552288421396e-15,
-                            0.051761350033138614,
-                            0.8938323297292177
+                            1.2410356961441951e-15,
+                            0.2373427881085056,
+                            -0.828562272039434
                         ],
                         [
-                            -0.06754139067270813,
-                            0.02378478999496396,
-                            0.8938323297292177
+                            -0.06754139067270529,
+                            0.20936622807033092,
+                            -0.828562272039434
                         ],
                         [
-                            -0.09551795071088286,
-                            -0.0437566006777424,
-                            0.8938323297292177
+                            -0.09551795071088001,
+                            0.14182483739762455,
+                            -0.828562272039434
                         ],
                         [
-                            -0.06754139067270813,
-                            -0.11129799135044888,
-                            0.8938323297292177
+                            -0.06754139067270529,
+                            0.07428344672491809,
+                            -0.828562272039434
                         ],
                         [
-                            -1.591572114922526e-15,
-                            -0.1392745513886236,
-                            0.8938323297292177
+                            1.2256188100638088e-15,
+                            0.046306886686743355,
+                            -0.828562272039434
                         ],
                         [
-                            0.06754139067270477,
-                            -0.11129799135044888,
-                            0.8938323297292177
+                            0.06754139067270762,
+                            0.07428344672491809,
+                            -0.828562272039434
                         ],
                         [
-                            0.09551795071087961,
-                            -0.04375660067774245,
-                            0.8938323297292177
+                            0.09551795071088245,
+                            0.1418248373976245,
+                            -0.828562272039434
                         ],
                         [
-                            0.06754139067270477,
-                            0.02378478999496396,
-                            0.8938323297292177
+                            0.06754139067270762,
+                            0.20936622807033092,
+                            -0.828562272039434
                         ],
                         [
-                            -1.5761552288421396e-15,
-                            0.051761350033138614,
-                            0.8938323297292177
+                            1.2410356961441951e-15,
+                            0.2373427881085056,
+                            -0.828562272039434
                         ],
                         [
-                            -0.06754139067270813,
-                            0.02378478999496396,
-                            0.8938323297292177
+                            -0.06754139067270529,
+                            0.20936622807033092,
+                            -0.828562272039434
                         ]
                     ],
                     "form": "periodic",
@@ -23596,7 +23928,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_lowerFineTune02_GRP|L_lowerFineTune02_OFF|L_lowerFineTune02_ANM|L_lowerFineTune02_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_lowerFineTune02_GRP|L_lowerFineTune02_OFF|L_lowerFineTune02_ANM|L_lowerFineTune02_CTL": {
         "transform": {
             "name": "L_lowerFineTune02_CTL",
             "overrideEnabled": true,
@@ -23688,7 +24020,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_lowerFineTune03_GRP|L_lowerFineTune03_OFF|L_lowerFineTune03_ANM|L_lowerFineTune03_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_lowerFineTune03_GRP|L_lowerFineTune03_OFF|L_lowerFineTune03_ANM|L_lowerFineTune03_CTL": {
         "transform": {
             "name": "L_lowerFineTune03_CTL",
             "overrideEnabled": true,
@@ -23780,7 +24112,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_lowerFineTune04_GRP|L_lowerFineTune04_OFF|L_lowerFineTune04_ANM|L_lowerFineTune04_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_lowerFineTune04_GRP|L_lowerFineTune04_OFF|L_lowerFineTune04_ANM|L_lowerFineTune04_CTL": {
         "transform": {
             "name": "L_lowerFineTune04_CTL",
             "overrideEnabled": true,
@@ -24767,7 +25099,7 @@
                 }
             },
             {
-                "name": "L_noseInner_CTLShape21",
+                "name": "L_noseInner_CTLShape25",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -24850,7 +25182,7 @@
                 }
             },
             {
-                "name": "L_noseInner_CTLShape22",
+                "name": "L_noseInner_CTLShape26",
                 "overrideEnabled": false,
                 "overrideColor": null,
                 "alwaysDrawOnTop": false,
@@ -26678,7 +27010,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_upperFineTune00_GRP|L_upperFineTune00_OFF|L_upperFineTune00_ANM|L_upperFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_upperFineTune00_GRP|L_upperFineTune00_OFF|L_upperFineTune00_ANM|L_upperFineTune00_CTL": {
         "transform": {
             "name": "L_upperFineTune00_CTL",
             "overrideEnabled": true,
@@ -26770,7 +27102,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_upperFineTune01_GRP|L_upperFineTune01_OFF|L_upperFineTune01_ANM|L_upperFineTune01_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_upperFineTune01_GRP|L_upperFineTune01_OFF|L_upperFineTune01_ANM|L_upperFineTune01_CTL": {
         "transform": {
             "name": "L_upperFineTune01_CTL",
             "overrideEnabled": true,
@@ -26786,59 +27118,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.05823575578119221,
-                            0.48439051281247,
-                            0.9867154854514535
+                            0.0673768808719081,
+                            0.4843796614007618,
+                            0.8293239678616907
                         ],
                         [
-                            -2.8796409701214998e-15,
-                            0.5123670728506449,
-                            1.0209271238599846
+                            -7.341838088159927e-05,
+                            0.512366987434242,
+                            0.8293443631506726
                         ],
                         [
-                            -0.05823575578119709,
-                            0.48439051281247,
-                            1.055138762268519
+                            -0.0674807101418794,
+                            0.4844012434271277,
+                            0.8292058521184799
                         ],
                         [
-                            -0.0823577956408149,
-                            0.4168491221397637,
-                            1.0693096868883396
+                            -0.09535871710033253,
+                            0.4168643829369336,
+                            0.8289895726492368
                         ],
                         [
-                            -0.05823575578119709,
-                            0.34930773146705724,
-                            1.055138762268519
+                            -0.06737688087190899,
+                            0.3493185828787148,
+                            0.828822218322755
                         ],
                         [
-                            -2.8935187579293142e-15,
-                            0.3213311714288825,
-                            1.0209271238599846
+                            7.341838088145355e-05,
+                            0.32133125684523506,
+                            0.8288018230337709
                         ],
                         [
-                            0.05823575578119221,
-                            0.34930773146705724,
-                            0.9867154854514535
+                            0.06748071014187856,
+                            0.3492970008523489,
+                            0.8289403340659648
                         ],
                         [
-                            0.08235779564081033,
-                            0.4168491221397636,
-                            0.972544560831635
+                            0.09535871710033084,
+                            0.4168338613425428,
+                            0.8291566135352105
                         ],
                         [
-                            0.05823575578119221,
-                            0.48439051281247,
-                            0.9867154854514535
+                            0.0673768808719081,
+                            0.4843796614007618,
+                            0.8293239678616907
                         ],
                         [
-                            -2.8796409701214998e-15,
-                            0.5123670728506449,
-                            1.0209271238599846
+                            -7.341838088159927e-05,
+                            0.512366987434242,
+                            0.8293443631506726
                         ],
                         [
-                            -0.05823575578119709,
-                            0.48439051281247,
-                            1.055138762268519
+                            -0.0674807101418794,
+                            0.4844012434271277,
+                            0.8292058521184799
                         ]
                     ],
                     "form": "periodic",
@@ -26862,7 +27194,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_upperFineTune02_GRP|L_upperFineTune02_OFF|L_upperFineTune02_ANM|L_upperFineTune02_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_upperFineTune02_GRP|L_upperFineTune02_OFF|L_upperFineTune02_ANM|L_upperFineTune02_CTL": {
         "transform": {
             "name": "L_upperFineTune02_CTL",
             "overrideEnabled": true,
@@ -26954,7 +27286,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_upperFineTune03_GRP|L_upperFineTune03_OFF|L_upperFineTune03_ANM|L_upperFineTune03_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_upperFineTune03_GRP|L_upperFineTune03_OFF|L_upperFineTune03_ANM|L_upperFineTune03_CTL": {
         "transform": {
             "name": "L_upperFineTune03_CTL",
             "overrideEnabled": true,
@@ -27046,7 +27378,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|L_upperFineTune04_GRP|L_upperFineTune04_OFF|L_upperFineTune04_ANM|L_upperFineTune04_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|L_upperFineTune04_GRP|L_upperFineTune04_OFF|L_upperFineTune04_ANM|L_upperFineTune04_CTL": {
         "transform": {
             "name": "L_upperFineTune04_CTL",
             "overrideEnabled": true,
@@ -44141,7 +44473,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_lowerFineTune00_GRP|R_lowerFineTune00_OFF|R_lowerFineTune00_ANM|R_lowerFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_lowerFineTune00_GRP|R_lowerFineTune00_OFF|R_lowerFineTune00_ANM|R_lowerFineTune00_CTL": {
         "transform": {
             "name": "R_lowerFineTune00_CTL",
             "overrideEnabled": true,
@@ -44233,7 +44565,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_lowerFineTune01_GRP|R_lowerFineTune01_OFF|R_lowerFineTune01_ANM|R_lowerFineTune01_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_lowerFineTune01_GRP|R_lowerFineTune01_OFF|R_lowerFineTune01_ANM|R_lowerFineTune01_CTL": {
         "transform": {
             "name": "R_lowerFineTune01_CTL",
             "overrideEnabled": true,
@@ -44249,59 +44581,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.067541390672754,
-                            0.023784789994877542,
-                            -0.8938323297292179
+                            0.06754139067276821,
+                            0.2093662280703512,
+                            0.8285622720394468
                         ],
                         [
-                            4.796163466380676e-14,
-                            0.05176135003307536,
-                            -0.8938323297292161
+                            6.128431095930864e-14,
+                            0.2373427881085206,
+                            0.8285622720394468
                         ],
                         [
-                            -0.06754139067265985,
-                            0.023784789994891753,
-                            -0.8938323297292143
+                            -0.06754139067264564,
+                            0.2093662280703512,
+                            0.8285622720394468
                         ],
                         [
-                            -0.0955179507108328,
-                            -0.043756600677824053,
-                            -0.8938323297292143
+                            -0.09551795071082037,
+                            0.1418248373976354,
+                            0.828562272039445
                         ],
                         [
-                            -0.06754139067265807,
-                            -0.11129799135052565,
-                            -0.8938323297292143
+                            -0.06754139067264475,
+                            0.07428344672493381,
+                            0.8285622720394503
                         ],
                         [
-                            4.884981308350689e-14,
-                            -0.13927455138869504,
-                            -0.8938323297292143
+                            6.306066779870889e-14,
+                            0.046306886686750204,
+                            0.8285622720394503
                         ],
                         [
-                            0.067541390672754,
-                            -0.11129799135051144,
-                            -0.8938323297292126
+                            0.06754139067276821,
+                            0.07428344672493381,
+                            0.8285622720394485
                         ],
                         [
-                            0.09551795071092961,
-                            -0.04375660067780984,
-                            -0.8938323297292143
+                            0.09551795071094293,
+                            0.14182483739764962,
+                            0.8285622720394485
                         ],
                         [
-                            0.067541390672754,
-                            0.023784789994877542,
-                            -0.8938323297292179
+                            0.06754139067276821,
+                            0.2093662280703512,
+                            0.8285622720394468
                         ],
                         [
-                            4.796163466380676e-14,
-                            0.05176135003307536,
-                            -0.8938323297292161
+                            6.128431095930864e-14,
+                            0.2373427881085206,
+                            0.8285622720394468
                         ],
                         [
-                            -0.06754139067265985,
-                            0.023784789994891753,
-                            -0.8938323297292143
+                            -0.06754139067264564,
+                            0.2093662280703512,
+                            0.8285622720394468
                         ]
                     ],
                     "form": "periodic",
@@ -44325,7 +44657,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_lowerFineTune02_GRP|R_lowerFineTune02_OFF|R_lowerFineTune02_ANM|R_lowerFineTune02_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_lowerFineTune02_GRP|R_lowerFineTune02_OFF|R_lowerFineTune02_ANM|R_lowerFineTune02_CTL": {
         "transform": {
             "name": "R_lowerFineTune02_CTL",
             "overrideEnabled": true,
@@ -44341,59 +44673,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.06686329470264774,
-                            0.3477700616142698,
-                            0.7881155603859948
+                            0.06686329470264418,
+                            0.34777006161429824,
+                            0.7881155603859984
                         ],
                         [
-                            0.001004550709234664,
-                            0.31913731765212106,
-                            0.801384483432658
+                            0.0010045507092293349,
+                            0.31913731765213527,
+                            0.8013844834326616
                         ],
                         [
-                            -0.06544264546557876,
-                            0.34645473998089926,
-                            0.8144721052568205
+                            -0.06544264546558587,
+                            0.3464547399809277,
+                            0.8144721052568222
                         ],
                         [
-                            -0.09355442748425169,
-                            0.41372015308951404,
-                            0.8197118744930947
+                            -0.0935544274842588,
+                            0.41372015308954246,
+                            0.8197118744930982
                         ],
                         [
-                            -0.06686329470272234,
-                            0.4815303902575465,
-                            0.8140344053865771
+                            -0.06686329470272767,
+                            0.48153039025757494,
+                            0.8140344053865816
                         ],
                         [
-                            -0.0010045507093074946,
-                            0.5101631342197237,
-                            0.800765482339914
+                            -0.0010045507093128236,
+                            0.5101631342197521,
+                            0.8007654823399166
                         ],
                         [
-                            0.06544264546550593,
-                            0.4828457118909313,
-                            0.7876778605157533
+                            0.06544264546550149,
+                            0.4828457118909455,
+                            0.7876778605157568
                         ],
                         [
-                            0.09355442748417886,
-                            0.4155802987823023,
-                            0.7824380912794773
+                            0.09355442748417442,
+                            0.4155802987823307,
+                            0.7824380912794808
                         ],
                         [
-                            0.06686329470264774,
-                            0.3477700616142698,
-                            0.7881155603859948
+                            0.06686329470264418,
+                            0.34777006161429824,
+                            0.7881155603859984
                         ],
                         [
-                            0.001004550709234664,
-                            0.31913731765212106,
-                            0.801384483432658
+                            0.0010045507092293349,
+                            0.31913731765213527,
+                            0.8013844834326616
                         ],
                         [
-                            -0.06544264546557876,
-                            0.34645473998089926,
-                            0.8144721052568205
+                            -0.06544264546558587,
+                            0.3464547399809277,
+                            0.8144721052568222
                         ]
                     ],
                     "form": "periodic",
@@ -44417,7 +44749,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_lowerFineTune03_GRP|R_lowerFineTune03_OFF|R_lowerFineTune03_ANM|R_lowerFineTune03_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_lowerFineTune03_GRP|R_lowerFineTune03_OFF|R_lowerFineTune03_ANM|R_lowerFineTune03_CTL": {
         "transform": {
             "name": "R_lowerFineTune03_CTL",
             "overrideEnabled": true,
@@ -44433,59 +44765,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            -0.04757596535568176,
-                            0.5198229579949469,
-                            0.8431338371862562
+                            -0.04757596535567821,
+                            0.5198229579949327,
+                            0.8431338371862598
                         ],
                         [
-                            -0.10901192767721568,
-                            0.48853375431059476,
-                            0.847953118974905
+                            -0.1090119276772139,
+                            0.48853375431056634,
+                            0.8479531189749085
                         ],
                         [
-                            -0.17357978197362023,
-                            0.5129930566649392,
-                            0.855179468149597
+                            -0.17357978197361756,
+                            0.512993056664925,
+                            0.8551794681496023
                         ],
                         [
-                            -0.20345655489139158,
+                            -0.20345655489138803,
                             0.5788729374650075,
-                            0.860579787370245
+                            0.8605797873702485
                         ],
                         [
-                            -0.1811408380552404,
-                            0.6475818560256528,
-                            0.8609906428785319
+                            -0.18114083805523684,
+                            0.6475818560256386,
+                            0.8609906428785372
                         ],
                         [
-                            -0.1197048757337047,
-                            0.6788710597100049,
-                            0.8561713610898831
+                            -0.11970487573370203,
+                            0.6788710597099907,
+                            0.8561713610898884
                         ],
                         [
-                            -0.05513702143730015,
-                            0.6544117573556605,
-                            0.8489450119151911
+                            -0.055137021437297484,
+                            0.6544117573556321,
+                            0.8489450119151964
                         ],
                         [
-                            -0.025260248519528794,
-                            0.588531876555578,
-                            0.8435446926945449
+                            -0.02526024851952613,
+                            0.5885318765555638,
+                            0.843544692694552
                         ],
                         [
-                            -0.04757596535568176,
-                            0.5198229579949469,
-                            0.8431338371862562
+                            -0.04757596535567821,
+                            0.5198229579949327,
+                            0.8431338371862598
                         ],
                         [
-                            -0.10901192767721568,
-                            0.48853375431059476,
-                            0.847953118974905
+                            -0.1090119276772139,
+                            0.48853375431056634,
+                            0.8479531189749085
                         ],
                         [
-                            -0.17357978197362023,
-                            0.5129930566649392,
-                            0.855179468149597
+                            -0.17357978197361756,
+                            0.512993056664925,
+                            0.8551794681496023
                         ]
                     ],
                     "form": "periodic",
@@ -44509,7 +44841,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_lowerFineTune04_GRP|R_lowerFineTune04_OFF|R_lowerFineTune04_ANM|R_lowerFineTune04_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_lowerFineTune04_GRP|R_lowerFineTune04_OFF|R_lowerFineTune04_ANM|R_lowerFineTune04_CTL": {
         "transform": {
             "name": "R_lowerFineTune04_CTL",
             "overrideEnabled": true,
@@ -44525,59 +44857,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.0708059208252253,
-                            0.4862265600204978,
-                            1.0034761363758746
+                            0.0720210471159749,
+                            0.4866123560935023,
+                            1.0003450801823823
                         ],
                         [
-                            0.003686483195031953,
-                            0.4586548708640521,
-                            1.0085667081215663
+                            0.005110557759370304,
+                            0.4590237232855827,
+                            1.005515082548008
                         ],
                         [
-                            -0.06346836949165902,
-                            0.48617464180762227,
-                            1.0039682496830955
+                            -0.06184902735658204,
+                            0.4865230071112876,
+                            1.0010253708788688
                         ],
                         [
-                            -0.09132023531015199,
-                            0.5526651642659033,
-                            0.9923744756477135
+                            -0.08963369140183286,
+                            0.5530015000610717,
+                            0.9895059573796039
                         ],
                         [
-                            -0.06355386900136895,
-                            0.6191771919520761,
-                            0.9805768616062545
+                            -0.06196755500465356,
+                            0.6195170025710866,
+                            0.9777047582475
                         ],
                         [
-                            0.0035655686288244004,
-                            0.6467488811085502,
-                            0.9754862898605645
+                            0.004942934351951256,
+                            0.6471056353790061,
+                            0.9725347558818753
                         ],
                         [
-                            0.07072042131551581,
-                            0.6192291101649516,
-                            0.9800847482990309
+                            0.0719025194679036,
+                            0.6196063515533297,
+                            0.9770244675510154
                         ],
                         [
-                            0.09857228713400878,
-                            0.5527385877066706,
-                            0.9916785223344129
+                            0.0996871835131542,
+                            0.5531278586035171,
+                            0.9885438810502785
                         ],
                         [
-                            0.0708059208252253,
-                            0.4862265600204978,
-                            1.0034761363758746
+                            0.0720210471159749,
+                            0.4866123560935023,
+                            1.0003450801823823
                         ],
                         [
-                            0.003686483195031953,
-                            0.4586548708640521,
-                            1.0085667081215663
+                            0.005110557759370304,
+                            0.4590237232855827,
+                            1.005515082548008
                         ],
                         [
-                            -0.06346836949165902,
-                            0.48617464180762227,
-                            1.0039682496830955
+                            -0.06184902735658204,
+                            0.4865230071112876,
+                            1.0010253708788688
                         ]
                     ],
                     "form": "periodic",
@@ -44617,59 +44949,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.16935409114779,
-                            0.5930255114958669,
+                            0.16935409114778466,
+                            0.5930255114959238,
                             0.8646733359278169
                         ],
                         [
-                            7.105427357601002e-15,
-                            0.6631742728926611,
+                            3.552713678800501e-15,
+                            0.6631742728926895,
                             0.8646733359278169
                         ],
                         [
-                            -0.16935409114777578,
-                            0.5930255114958669,
+                            -0.1693540911477811,
+                            0.5930255114959238,
+                            0.8646733359278205
+                        ],
+                        [
+                            -0.2395028525445646,
+                            0.42367142034814265,
                             0.8646733359278169
                         ],
                         [
-                            -0.23950285254456105,
-                            0.4236714203480858,
+                            -0.16935409114778643,
+                            0.25431732920034733,
                             0.8646733359278169
                         ],
                         [
-                            -0.16935409114777933,
-                            0.2543173292003047,
+                            -1.7763568394002505e-15,
+                            0.1841685678035816,
                             0.8646733359278169
                         ],
                         [
-                            1.7763568394002505e-15,
-                            0.18416856780352475,
+                            0.1693540911477811,
+                            0.25431732920036154,
                             0.8646733359278151
                         ],
                         [
+                            0.2395028525445646,
+                            0.42367142034812844,
+                            0.8646733359278169
+                        ],
+                        [
                             0.16935409114778466,
-                            0.2543173292002905,
+                            0.5930255114959238,
                             0.8646733359278169
                         ],
                         [
-                            0.23950285254456993,
-                            0.4236714203480716,
+                            3.552713678800501e-15,
+                            0.6631742728926895,
                             0.8646733359278169
                         ],
                         [
-                            0.16935409114779,
-                            0.5930255114958669,
-                            0.8646733359278169
-                        ],
-                        [
-                            7.105427357601002e-15,
-                            0.6631742728926611,
-                            0.8646733359278169
-                        ],
-                        [
-                            -0.16935409114777578,
-                            0.5930255114958669,
-                            0.8646733359278169
+                            -0.1693540911477811,
+                            0.5930255114959238,
+                            0.8646733359278205
                         ]
                     ],
                     "form": "periodic",
@@ -44709,59 +45041,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.15754161241922215,
-                            0.7746996174455631,
-                            0.9104964632598858
+                            0.1575416124192417,
+                            0.77469961744562,
+                            0.9104964632598893
                         ],
                         [
-                            0.0019041443775211775,
-                            0.841108139882536,
-                            0.9129116179899803
+                            0.0019041443775424938,
+                            0.8411081398825786,
+                            0.9129116179899839
                         ],
                         [
-                            -0.15344926451514596,
-                            0.7676146282378653,
-                            0.9227597015369824
+                            -0.1534492645151273,
+                            0.7676146282379221,
+                            0.9227597015369859
                         ],
                         [
-                            -0.21751469429035097,
-                            0.5972705848866156,
-                            0.9342718401224381
+                            -0.21751469429033587,
+                            0.5972705848866582,
+                            0.9342718401224417
                         ],
                         [
-                            -0.15276348506503723,
-                            0.4298612401544659,
-                            0.9407043790949103
+                            -0.15276348506502568,
+                            0.42986124015450855,
+                            0.9407043790949174
                         ],
                         [
-                            0.0028739829766619707,
-                            0.3634527177174931,
-                            0.9382892243648158
+                            0.002873982976672629,
+                            0.36345271771753573,
+                            0.9382892243648193
                         ],
                         [
-                            0.15822739186933088,
-                            0.43694622936216376,
-                            0.9284411408178137
+                            0.15822739186934243,
+                            0.4369462293622064,
+                            0.9284411408178173
                         ],
                         [
-                            0.222292821644535,
-                            0.6072902727133993,
-                            0.9169290022323544
+                            0.2222928216445501,
+                            0.6072902727134704,
+                            0.916929002232358
                         ],
                         [
-                            0.15754161241922215,
-                            0.7746996174455631,
-                            0.9104964632598858
+                            0.1575416124192417,
+                            0.77469961744562,
+                            0.9104964632598893
                         ],
                         [
-                            0.0019041443775211775,
-                            0.841108139882536,
-                            0.9129116179899803
+                            0.0019041443775424938,
+                            0.8411081398825786,
+                            0.9129116179899839
                         ],
                         [
-                            -0.15344926451514596,
-                            0.7676146282378653,
-                            0.9227597015369824
+                            -0.1534492645151273,
+                            0.7676146282379221,
+                            0.9227597015369859
                         ]
                     ],
                     "form": "periodic",
@@ -47407,7 +47739,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_upperFineTune00_GRP|R_upperFineTune00_OFF|R_upperFineTune00_ANM|R_upperFineTune00_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_upperFineTune00_GRP|R_upperFineTune00_OFF|R_upperFineTune00_ANM|R_upperFineTune00_CTL": {
         "transform": {
             "name": "R_upperFineTune00_CTL",
             "overrideEnabled": true,
@@ -47499,7 +47831,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_upperFineTune01_GRP|R_upperFineTune01_OFF|R_upperFineTune01_ANM|R_upperFineTune01_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_upperFineTune01_GRP|R_upperFineTune01_OFF|R_upperFineTune01_ANM|R_upperFineTune01_CTL": {
         "transform": {
             "name": "R_upperFineTune01_CTL",
             "overrideEnabled": true,
@@ -47515,59 +47847,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.058235755781185006,
-                            0.4843905128125101,
-                            -0.9867154854514535
+                            0.0673768808719073,
+                            0.48437966140079425,
+                            -0.8293239678616864
                         ],
                         [
-                            -1.1546319456101628e-14,
-                            0.5123670728507221,
-                            -1.0209271238599822
+                            -7.341838088326114e-05,
+                            0.5123669874342909,
+                            -0.8293443631506694
                         ],
                         [
-                            -0.058235755781205434,
-                            0.4843905128125101,
-                            -1.055138762268518
+                            -0.06748071014188106,
+                            0.4844012434271576,
+                            -0.8292058521184771
                         ],
                         [
-                            -0.08235779564082257,
-                            0.4168491221398227,
-                            -1.0693096868883405
+                            -0.09535871710033472,
+                            0.4168643829369785,
+                            -0.8289895726492382
                         ],
                         [
-                            -0.058235755781204546,
-                            0.3493077314671069,
-                            -1.0551387622685215
+                            -0.06737688087191085,
+                            0.3493185828787375,
+                            -0.8288222183227543
                         ],
                         [
-                            -1.1546319456101628e-14,
-                            0.32133117142895173,
-                            -1.0209271238599822
+                            7.341838087793207e-05,
+                            0.3213312568452693,
+                            -0.8288018230337677
                         ],
                         [
-                            0.058235755781185006,
-                            0.3493077314671069,
-                            -0.9867154854514553
+                            0.06748071014187662,
+                            0.34929700085237414,
+                            -0.8289403340659671
                         ],
                         [
-                            0.08235779564080303,
-                            0.4168491221398227,
-                            -0.9725445608316328
+                            0.0953587171003285,
+                            0.4168338613425817,
+                            -0.8291566135352095
                         ],
                         [
-                            0.058235755781185006,
-                            0.4843905128125101,
-                            -0.9867154854514535
+                            0.0673768808719073,
+                            0.48437966140079425,
+                            -0.8293239678616864
                         ],
                         [
-                            -1.1546319456101628e-14,
-                            0.5123670728507221,
-                            -1.0209271238599822
+                            -7.341838088326114e-05,
+                            0.5123669874342909,
+                            -0.8293443631506694
                         ],
                         [
-                            -0.058235755781205434,
-                            0.4843905128125101,
-                            -1.055138762268518
+                            -0.06748071014188106,
+                            0.4844012434271576,
+                            -0.8292058521184771
                         ]
                     ],
                     "form": "periodic",
@@ -47591,7 +47923,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_upperFineTune02_GRP|R_upperFineTune02_OFF|R_upperFineTune02_ANM|R_upperFineTune02_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_upperFineTune02_GRP|R_upperFineTune02_OFF|R_upperFineTune02_ANM|R_upperFineTune02_CTL": {
         "transform": {
             "name": "R_upperFineTune02_CTL",
             "overrideEnabled": true,
@@ -47607,59 +47939,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.06636630349519201,
-                            0.4118118345330686,
-                            -1.028707430263914
+                            0.06636630349520356,
+                            0.41181183453305437,
+                            -1.0287074302639159
                         ],
                         [
-                            -4.2073105115392195e-05,
-                            0.4397530532263545,
-                            -1.0404424233507665
+                            -4.2073105103845876e-05,
+                            0.43975305322631186,
+                            -1.0404424233507692
                         ],
                         [
-                            -0.06642580385105568,
-                            0.4117410213535493,
-                            -1.052072425878844
+                            -0.06642580385104324,
+                            0.4117410213535351,
+                            -1.052072425878845
                         ],
                         [
-                            -0.09389819959257828,
-                            0.34418480727620704,
-                            -1.0567847400976262
+                            -0.0938981995925694,
+                            0.34418480727619283,
+                            -1.0567847400976271
                         ],
                         [
-                            -0.06636630349518136,
-                            0.27665792497823816,
-                            -1.0518189562479172
+                            -0.06636630349517425,
+                            0.27665792497820973,
+                            -1.0518189562479199
                         ],
                         [
-                            4.2073105126050336e-05,
-                            0.24871670628498066,
+                            4.2073105132267585e-05,
+                            0.24871670628495224,
                             -1.0400839631610665
                         ],
                         [
-                            0.06642580385106545,
-                            0.27672873815775745,
-                            -1.028453960632989
+                            0.06642580385107344,
+                            0.276728738157729,
+                            -1.0284539606329899
                         ],
                         [
-                            0.09389819959258716,
-                            0.3442849522350855,
-                            -1.023741646414205
+                            0.09389819959259871,
+                            0.34428495223504285,
+                            -1.023741646414206
                         ],
                         [
-                            0.06636630349519201,
-                            0.4118118345330686,
-                            -1.028707430263914
+                            0.06636630349520356,
+                            0.41181183453305437,
+                            -1.0287074302639159
                         ],
                         [
-                            -4.2073105115392195e-05,
-                            0.4397530532263545,
-                            -1.0404424233507665
+                            -4.2073105103845876e-05,
+                            0.43975305322631186,
+                            -1.0404424233507692
                         ],
                         [
-                            -0.06642580385105568,
-                            0.4117410213535493,
-                            -1.052072425878844
+                            -0.06642580385104324,
+                            0.4117410213535351,
+                            -1.052072425878845
                         ]
                     ],
                     "form": "periodic",
@@ -47683,7 +48015,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_upperFineTune03_GRP|R_upperFineTune03_OFF|R_upperFineTune03_ANM|R_upperFineTune03_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_upperFineTune03_GRP|R_upperFineTune03_OFF|R_upperFineTune03_ANM|R_upperFineTune03_CTL": {
         "transform": {
             "name": "R_upperFineTune03_CTL",
             "overrideEnabled": true,
@@ -47699,59 +48031,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.1287440450305155,
-                            0.44652671132121213,
-                            -1.2827111764773402
+                            0.1287440450305244,
+                            0.4465267113211553,
+                            -1.2827111764773456
                         ],
                         [
-                            0.06489945667684438,
-                            0.47450327135939574,
-                            -1.3047499602902857
+                            0.06489945667685415,
+                            0.4745032713593531,
+                            -1.304749960290291
                         ],
                         [
-                            0.0010548683231768052,
-                            0.4465267113211979,
-                            -1.3267887441032258
+                            0.0010548683231847988,
+                            0.4465267113211411,
+                            -1.3267887441032347
                         ],
                         [
-                            -0.02539042605703834,
-                            0.3789853206484821,
-                            -1.3359175072567577
+                            -0.025390426057032123,
+                            0.3789853206484679,
+                            -1.335917507256763
                         ],
                         [
-                            0.001054868323180358,
-                            0.31144392997580894,
-                            -1.3267887441032276
+                            0.0010548683231847988,
+                            0.3114439299757521,
+                            -1.3267887441032329
                         ],
                         [
-                            0.06489945667684971,
-                            0.2834673699376111,
-                            -1.304749960290284
+                            0.06489945667685415,
+                            0.2834673699375685,
+                            -1.3047499602902874
                         ],
                         [
-                            0.12874404503051817,
-                            0.31144392997579473,
-                            -1.2827111764773402
+                            0.1287440450305235,
+                            0.3114439299757663,
+                            -1.2827111764773456
                         ],
                         [
-                            0.1551893394107342,
-                            0.37898532064851054,
-                            -1.27358241332381
+                            0.15518933941074042,
+                            0.3789853206484679,
+                            -1.2735824133238154
                         ],
                         [
-                            0.1287440450305155,
-                            0.44652671132121213,
-                            -1.2827111764773402
+                            0.1287440450305244,
+                            0.4465267113211553,
+                            -1.2827111764773456
                         ],
                         [
-                            0.06489945667684438,
-                            0.47450327135939574,
-                            -1.3047499602902857
+                            0.06489945667685415,
+                            0.4745032713593531,
+                            -1.304749960290291
                         ],
                         [
-                            0.0010548683231768052,
-                            0.4465267113211979,
-                            -1.3267887441032258
+                            0.0010548683231847988,
+                            0.4465267113211411,
+                            -1.3267887441032347
                         ]
                     ],
                     "form": "periodic",
@@ -47775,7 +48107,7 @@
             }
         ]
     },
-    "|OTO|masterWalk|C_jawControllers_GRP|R_upperFineTune04_GRP|R_upperFineTune04_OFF|R_upperFineTune04_ANM|R_upperFineTune04_CTL": {
+    "|OTO|masterWalk|C_jawControllers_GRP|C_fineTuneControllers_GRP|R_upperFineTune04_GRP|R_upperFineTune04_OFF|R_upperFineTune04_ANM|R_upperFineTune04_CTL": {
         "transform": {
             "name": "R_upperFineTune04_CTL",
             "overrideEnabled": true,
@@ -47791,59 +48123,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.07238702228697765,
-                            0.5650321700048551,
-                            -1.3633637136328622
+                            0.07399755973233378,
+                            0.5645229483059211,
+                            -1.3592802992526192
                         ],
                         [
-                            0.005278256195271853,
-                            0.5930330887429989,
-                            -1.3636246623470707
+                            0.007084529696650951,
+                            0.5925391374549633,
+                            -1.3596298611289486
                         ],
                         [
-                            -0.06183050989643439,
-                            0.5650808874048323,
-                            -1.3638856110612791
+                            -0.05982850033903321,
+                            0.5646022065276668,
+                            -1.3599794230052806
                         ],
                         [
-                            -0.08962787096574269,
-                            0.49754958643598,
-                            -1.363993699557788
+                            -0.08754478487929242,
+                            0.49707723077020205,
+                            -1.3601242162753477
                         ],
                         [
-                            -0.06183050989643439,
-                            0.4299981060594291,
-                            -1.3638856110612791
+                            -0.05982850033903454,
+                            0.429519425182292,
+                            -1.3599794230052824
                         ],
                         [
-                            0.005278256195271853,
-                            0.4019971873212853,
-                            -1.3636246623470716
+                            0.007084529696648731,
+                            0.40150323603322136,
+                            -1.3596298611289495
                         ],
                         [
-                            0.07238702228697809,
-                            0.42994938865945187,
-                            -1.3633637136328631
+                            0.0739975597323329,
+                            0.4294401669605463,
+                            -1.3592802992526174
                         ],
                         [
-                            0.10018438335628684,
-                            0.49748068962830416,
-                            -1.3632556251363517
+                            0.10171384427259254,
+                            0.49696514271801107,
+                            -1.359135505982553
                         ],
                         [
-                            0.07238702228697765,
-                            0.5650321700048551,
-                            -1.3633637136328622
+                            0.07399755973233378,
+                            0.5645229483059211,
+                            -1.3592802992526192
                         ],
                         [
-                            0.005278256195271853,
-                            0.5930330887429989,
-                            -1.3636246623470707
+                            0.007084529696650951,
+                            0.5925391374549633,
+                            -1.3596298611289486
                         ],
                         [
-                            -0.06183050989643439,
-                            0.5650808874048323,
-                            -1.3638856110612791
+                            -0.05982850033903321,
+                            0.5646022065276668,
+                            -1.3599794230052806
                         ]
                     ],
                     "form": "periodic",
@@ -47883,59 +48215,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.16935409114776157,
-                            0.47188920333378803,
-                            1.0335601454288845
+                            0.16935409114776867,
+                            0.4718892033337738,
+                            1.033560145428881
                         ],
                         [
-                            -2.3092638912203256e-14,
+                            -1.5987211554602254e-14,
                             0.5420379647305396,
-                            1.0335601454288845
+                            1.033560145428881
                         ],
                         [
-                            -0.1693540911478042,
-                            0.47188920333378803,
-                            1.033560145428888
+                            -0.16935409114779798,
+                            0.4718892033337738,
+                            1.0335601454288792
                         ],
                         [
-                            -0.23950285254457881,
-                            0.3025351121859785,
-                            1.0335601454288863
+                            -0.23950285254457437,
+                            0.3025351121859927,
+                            1.0335601454288774
                         ],
                         [
-                            -0.16935409114779176,
+                            -0.16935409114779,
                             0.1331810210381974,
-                            1.033560145428888
+                            1.0335601454288792
                         ],
                         [
-                            -5.329070518200751e-15,
-                            0.06303225964143166,
-                            1.0335601454288845
+                            -4.440892098500626e-15,
+                            0.06303225964141745,
+                            1.033560145428881
                         ],
                         [
                             0.16935409114777578,
                             0.13318102103822582,
-                            1.0335601454288845
+                            1.033560145428881
                         ],
                         [
-                            0.2395028525445504,
+                            0.23950285254455395,
                             0.3025351121860069,
-                            1.0335601454288863
+                            1.033560145428881
                         ],
                         [
-                            0.16935409114776157,
-                            0.47188920333378803,
-                            1.0335601454288845
+                            0.16935409114776867,
+                            0.4718892033337738,
+                            1.033560145428881
                         ],
                         [
-                            -2.3092638912203256e-14,
+                            -1.5987211554602254e-14,
                             0.5420379647305396,
-                            1.0335601454288845
+                            1.033560145428881
                         ],
                         [
-                            -0.1693540911478042,
-                            0.47188920333378803,
-                            1.033560145428888
+                            -0.16935409114779798,
+                            0.4718892033337738,
+                            1.0335601454288792
                         ]
                     ],
                     "form": "periodic",
@@ -47975,59 +48307,59 @@
                 "curve": {
                     "cvs": [
                         [
-                            0.16935409114779043,
-                            0.4848378848180488,
-                            1.338006272999607
+                            0.1693540911477931,
+                            0.4848378848180772,
+                            1.3380062729996016
                         ],
                         [
-                            7.549516567451064e-15,
-                            0.5549866462148287,
-                            1.338006272999607
+                            1.1102230246251565e-14,
+                            0.554986646214843,
+                            1.3380062729996052
                         ],
                         [
-                            -0.16935409114777533,
-                            0.4848378848180488,
-                            1.338006272999607
+                            -0.16935409114777356,
+                            0.4848378848180772,
+                            1.3380062729996052
                         ],
                         [
-                            -0.23950285254455794,
-                            0.3154837936702677,
-                            1.3380062729996105
+                            -0.23950285254455705,
+                            0.3154837936703103,
+                            1.3380062729996052
                         ],
                         [
-                            -0.1693540911477771,
-                            0.14612970252248658,
-                            1.338006272999607
+                            -0.16935409114777888,
+                            0.14612970252252921,
+                            1.3380062729996052
                         ],
                         [
-                            5.773159728050814e-15,
-                            0.07598094112569242,
-                            1.338006272999607
+                            3.9968028886505635e-15,
+                            0.07598094112573506,
+                            1.3380062729996016
                         ],
                         [
-                            0.16935409114778954,
-                            0.14612970252248658,
-                            1.338006272999607
+                            0.16935409114778777,
+                            0.146129702522515,
+                            1.3380062729996052
                         ],
                         [
-                            0.23950285254457127,
-                            0.3154837936702677,
-                            1.338006272999607
+                            0.23950285254457215,
+                            0.3154837936702961,
+                            1.3380062729996016
                         ],
                         [
-                            0.16935409114779043,
-                            0.4848378848180488,
-                            1.338006272999607
+                            0.1693540911477931,
+                            0.4848378848180772,
+                            1.3380062729996016
                         ],
                         [
-                            7.549516567451064e-15,
-                            0.5549866462148287,
-                            1.338006272999607
+                            1.1102230246251565e-14,
+                            0.554986646214843,
+                            1.3380062729996052
                         ],
                         [
-                            -0.16935409114777533,
-                            0.4848378848180488,
-                            1.338006272999607
+                            -0.16935409114777356,
+                            0.4848378848180772,
+                            1.3380062729996052
                         ]
                     ],
                     "form": "periodic",
