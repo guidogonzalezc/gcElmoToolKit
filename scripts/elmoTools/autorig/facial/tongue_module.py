@@ -120,7 +120,7 @@ class TongueModule():
 
         for i in range(clts_numbers):
 
-            ctl, ctl_grp = controller_creator(name=f"{self.side}_tongue0{i}",suffixes=["GRP", "ANM"],lock=["scaleX", "scaleY", "scaleZ", "visibility"], ro=True) # Create controller
+            ctl, ctl_grp = controller_creator(name=f"{self.side}_tongue0{i}",suffixes=["GRP", "ANM"],lock=["visibility"], ro=True) # Create controller
 
             if self.ctls:
                 cmds.parent(ctl_grp[0], self.ctls[-1]) # Parent the group to the last controller for FK behavior
