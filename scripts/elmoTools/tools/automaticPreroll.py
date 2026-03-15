@@ -146,7 +146,7 @@ class SmartOffsetBaker:
             
 
 
-    def store_positions(self, time_code):
+    def store_positions(self, time_code=1001):
         """Step 1: Calculate the offset matrix between the IK CTLs and the selected Body CTL."""
 
         cmds.currentTime(time_code, edit=True, update=True)
@@ -172,7 +172,7 @@ class SmartOffsetBaker:
         
         om.MGlobal.displayInfo(f"Stored offsets for {len(self.cached_offsets)} IK controllers relative to {self.reference_ctl}.")
 
-    def snap_and_key(self, time_code):
+    def snap_and_key(self, time_code=980):
         """Step 2: Reapply the stored offsets based on the reference controller's NEW position."""
 
         cmds.currentTime(time_code, edit=True, update=True)
@@ -237,10 +237,10 @@ class SmartOffsetBaker:
 
 
 
-global_baker = SmartOffsetBaker()
-global_baker.calculate_intertia()
+# global_baker = SmartOffsetBaker()
+# global_baker.calculate_intertia()
 # global_baker.set_t_pose()
 
 # global_baker.store_positions()
 
-# global_baker.snap_and_key()
+global_baker.snap_and_key()
