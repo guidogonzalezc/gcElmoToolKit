@@ -303,6 +303,8 @@ class JawModule():
                 parent=self.controllers_trn,
                 )
 
+                cmds.setAttr(f"{teeth_ctl}.inheritsTransform", 0)
+
                 parent_matrix = cmds.createNode("parentMatrix", name=f"{name}_PMX", ss=True)
                 cmds.connectAttr(f"{obj}.worldMatrix[0]", f"{parent_matrix}.inputMatrix", force=True)
                 parent = self.upper_jaw_ctl if "upper" in name.lower() else self.jaw_ctl    
@@ -371,6 +373,9 @@ class JawModule():
                 ro=True,
                 parent=self.controllers_trn,
             )
+        
+        cmds.setAttr(f"{self.main_mouth_grp}.inheritsTransform", 0)
+
         
         cmds.addAttr(self.main_mouth_ctl, shortName="extraAttr", niceName="Extra Attributes  ———", enumName="———",attributeType="enum", keyable=True)
         cmds.setAttr(self.main_mouth_ctl+".extraAttr", channelBox=True, lock=True)
